@@ -191,6 +191,9 @@ package Managers
 			_commandClasses['qualifiedNames'][6] = "Commands::DefaultCommand";
 			_commandClasses['runtimeClassRefs'][6] =  DefaultCommand as Class;		
 			
+			_commandClasses['names'][6] = "RemoveElement"		
+			_commandClasses['qualifiedNames'][6] = "Commands::RemoveElement";
+			_commandClasses['runtimeClassRefs'][6] =  RemoveElement as Class;		
 			
 			
 		}

@@ -21,8 +21,10 @@ package Elements
     public class Canvas extends Element implements IElement
     {
         protected var _canvasObject 	 : Object;
+		
         protected var _elements 		 : Array;
         protected var _activeElements	 : Array;
+		protected var _canvases	 		: Array;
         protected var _canvasLayout	 : VGroup;
 
         protected var _foreground 	 : Sprite;
@@ -59,6 +61,9 @@ package Elements
         public function get elements() : Array {
             return _elements;
         }
+		public function get canvases() : Array {
+            return _canvases;
+        }
 
         public function get activeElements() : Array {
             return _activeElements;
@@ -72,7 +77,7 @@ package Elements
                 // new array to hold references to Elements instatnces on Page
                 _elements = new Array();
                 _activeElements = new Array();
-
+				_canvases = new Array();
 
                 var elementObjects : Array = new Array();
                 for each( var elementObj : * in _canvasObject['elements'] ) {
@@ -81,21 +86,23 @@ package Elements
 					
                     var elementTypeNum : int =  aviableElements['names'].indexOf( elementObj['elementType'] );
                     if ( elementTypeNum != - 1 ) {
-
+						/*var r:Number = randomRange(10,20);
+						elementObj['w'] = String(   int(elementObj['w']) + r  - 15 );*/
+						
                         var element : * = createElement( aviableElements['runtimeClassRefs'][elementTypeNum], elementObj );
 								
-						if ( elementObj['elementType'] == 'Canvas' ){
-							trace("AElements: " + element.activeElements.length);
-							dispatchEvent( new SimpleEvent( SimpleEvent.SIMPLE_EVENT, element.activeElements ) );
-						}
-						
-                        _foreground.addChild( element );
-
 						_elements.push(element);
 						
-                        if ( element.isProperty( "action" ) ) 
+						if ( elementObj['elementType'] == 'Canvas' ){
+							_canvases.push(element);
+						}
+						
+						
+                        if ( element.isProperty( "action" ) ) {
 							_activeElements.push( element );
-
+						}
+						
+						_foreground.addChild( element );
                     }
 
                     elementObjects.push( elementObj );
@@ -109,7 +116,7 @@ package Elements
 				for each(var e:* in _elements) {
 					if ( e.getProperty('identifier') ) {
 						//trace("identifier found: "  + e.getProperty('identifier'));
-						hl.add( display("id", e.getProperty('identifier'), e ,  "marginY", 20) );
+						hl.add( display("id", e.getProperty('identifier'), e ,  "marginY", 5) );
 					}else{
 						hl.add(  e );
 					}
@@ -152,11 +159,18 @@ package Elements
         }
 		
         public function removeElements() : void {
+			/*trace( "Canvas.removeElements() before: " + _canvasLayout.numItems);
+			for (var i:uint = 0; i < _canvasLayout.numItems ; i++ )
+				_canvasLayout.remove(_canvasLayout.getLayoutItem(i) );
+			trace( "Canvas.removeElements() after: " + _canvasLayout.numItems);
+
+			_canvasLayout = null;*/
+			
 			
 /*			
 		if (Config.DEBUG && Config.DEBUG_LEVEL > 1) 
 */
-            trace( "Canvas.removeElements() " + _foreground.numChildren );
+            
             
 /*			for ( var i : uint = 0; i < _background.numChildren; i ++ ) {
 				trace("_background.numChildren " + i);

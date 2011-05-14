@@ -18,7 +18,7 @@ package Elements
 	{
 		private var input:TextInput;
 		private var label:Label;		
-										
+		
 		public function InputProperty() {
 
 		}

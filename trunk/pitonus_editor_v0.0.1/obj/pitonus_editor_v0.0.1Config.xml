@@ -17,20 +17,20 @@
       <value>'14-05-2011'</value>
     </define>
     <source-path append="true">
-      <path-element>H:\AS3\Pitonus\pitonus_src\trunk\pitonus_editor_v0.0.1\src</path-element>
+      <path-element>H:\AS3\Pitonus\pitonus_src\branches\pitonus_editor_v0.0.1\src</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>H:\AS3\Pitonus\pitonus_src\trunk\pitonus_editor_v0.0.1\assets\Font_Calibri_Regular_Bold.swc</path-element>
-      <path-element>H:\AS3\Pitonus\pitonus_src\trunk\pitonus_editor_v0.0.1\assets\Icons.swc</path-element>
-      <path-element>H:\AS3\Pitonus\pitonus_src\trunk\pitonus_editor_v0.0.1\assets\FlashIDE_Components.swc</path-element>
-      <path-element>H:\AS3\Pitonus\pitonus_src\trunk\pitonus_editor_v0.0.1\assets\jakute-styling-engine-0.9.0.swc</path-element>
-      <path-element>H:\AS3\Pitonus\pitonus_src\trunk\pitonus_editor_v0.0.1\assets\asdpc_preview3.swc</path-element>
-      <path-element>H:\AS3\Pitonus\pitonus_src\trunk\pitonus_editor_v0.0.1\assets\as3commons-collections-1.2.0.swc</path-element>
+      <path-element>H:\AS3\Pitonus\pitonus_src\branches\pitonus_editor_v0.0.1\assets\Font_Calibri_Regular_Bold.swc</path-element>
+      <path-element>H:\AS3\Pitonus\pitonus_src\branches\pitonus_editor_v0.0.1\assets\Icons.swc</path-element>
+      <path-element>H:\AS3\Pitonus\pitonus_src\branches\pitonus_editor_v0.0.1\assets\FlashIDE_Components.swc</path-element>
+      <path-element>H:\AS3\Pitonus\pitonus_src\branches\pitonus_editor_v0.0.1\assets\jakute-styling-engine-0.9.0.swc</path-element>
+      <path-element>H:\AS3\Pitonus\pitonus_src\branches\pitonus_editor_v0.0.1\assets\asdpc_preview3.swc</path-element>
+      <path-element>H:\AS3\Pitonus\pitonus_src\branches\pitonus_editor_v0.0.1\assets\as3commons-collections-1.2.0.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>H:\AS3\Pitonus\pitonus_src\trunk\pitonus_editor_v0.0.1\src\Main.as</path-element>
+    <path-element>H:\AS3\Pitonus\pitonus_src\branches\pitonus_editor_v0.0.1\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>

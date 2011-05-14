@@ -5,7 +5,7 @@ package
 		public static const DEBUG:Boolean = true;
 		
 		// DEBUG_LEVEL > 4 - to inspect layouts
-		public static const DEBUG_LEVEL:uint = 2;
+		public static const DEBUG_LEVEL:uint = 3;
 		
 		public static const ELEMENTS_CLASSES_PATH:String = "ElementsClasses/";
 	
@@ -37,7 +37,17 @@ package
     {
       "elementType": "Button",
 	  "identifier":"UPDATE_BUTTON",
-      "caption": "Update",
+      "caption": "AddCanvas",
+      "action": "AddElement"
+    }, {
+      "elementType": "Button",
+	  "identifier":"REMOVE_BUTTON",
+      "caption": "RemoveCanvas",
+      "action": "RemoveElement"
+    }, {
+      "elementType": "Button",
+	  "identifier":"SAVE_BUTTON",
+      "caption": "UpdateElement",
       "action": "UpdateElement"
     }
   ]
@@ -65,31 +75,67 @@ package
       "elements": [
         {
 		 "elementType": "Canvas",
-          "w": "250",
-          "h": "200",
+          "w": "450",
+          "h": "150",
+		  "identifier":"CANVAS_TO_REMOVE",
           "name": "ElementProperties",
           "elements": [
             {
               "elementType": "ActiveImage",
-              "caption": "InsideCanvas1",
+              "caption": "Inside",
               "src": "stamPic.jpg",
               "name": "ActiveImage Name",
               "action": "DefaultCommand",
               "actionParam": "Hi",
               "w": "50",
-              "h": "150"
-            },
-            {
+              "h": "40"
+            },{
               "elementType": "ActiveImage",
               "caption": "InsideCanvas2",
-              "src": "stamPic1.jpg",
+              "src": "stamPic.jpg",
               "name": "ActiveImage Name",
               "action": "DefaultCommand",
-			  "identifier":"MY_ACTIVEIMAGE",
               "actionParam": "Hi",
-              "w": "150",
-              "h": "75"
+              "w": "120",
+              "h": "30"
+            },{
+		 "elementType": "Canvas",
+          "w": "50",
+          "h": "70",
+		  "identifier":"CANVAS_TO_REMOVE",
+          "name": "ElementProperties",
+          "elements": [
+            {
+              "elementType": "ActiveImage",
+              "caption": "Inside",
+              "src": "stamPic.jpg",
+              "name": "ActiveImage Name",
+              "action": "DefaultCommand",
+              "actionParam": "Hi",
+              "w": "20",
+              "h": "40"
+            },{
+              "elementType": "ActiveImage",
+              "caption": "InsideCanvas2",
+              "src": "stamPic.jpg",
+              "name": "ActiveImage Name",
+              "action": "DefaultCommand",
+              "actionParam": "Hi",
+              "w": "50",
+              "h": "30"
+            },{
+              "elementType": "ActiveImage",
+              "caption": "InsideCanvas3",
+              "src": "stamPic2.jpg",
+              "name": "ActiveImage Name",
+              "action": "DefaultCommand",
+              "actionParam": "Hi",
+              "w": "60",
+              "h": "30"
             }
+          ]
+         
+        }
           ]
          
         },
@@ -111,79 +157,28 @@ package
           "actionParam": "Hi",
           "w": "150",
           "h": "150"
-        },
-		
-		 {
-          "name": "ElementProperties",
-          "elements": [
-            {
-              "elementType": "ActiveImage",
-              "caption": "InsideCanvas1",
-              "src": "stamPic.jpg",
-              "name": "ActiveImage Name",
-              "action": "DefaultCommand",
-              "actionParam": "Hi",
-              "w": "50",
-              "h": "50"
-            },
-            {
-              "elementType": "ActiveImage",
-              "caption": "InsideCanvas2",
-              "src": "stamPic1.jpg",
-              "name": "ActiveImage Name",
-              "action": "DefaultCommand",
-              "actionParam": "Hi",
-              "w": "70",
-              "h": "75"
-            },
-            {
-              "elementType": "ActiveImage",
-              "caption": "ActiveImage",
-              "src": "stamPic1.jpg",
-              "name": "ActiveImage Name",
-              "action": "DefaultCommand",
-              "actionParam": "Hi",
-              "w": "70",
-              "h": "75"
-            },
-            {
-              "elementType": "ActiveImage",
-              "caption": "InsideInsideCanvas2",
-              "src": "stamPic1.jpg",
-              "name": "ActiveImage Name",
-              "action": "DefaultCommand",
-              "actionParam": "Hi",
-              "w": "120",
-              "h": "75"
-            },
-            {
-              "elementType": "ActiveImage",
-              "caption": "ActiveImage",
-              "src": "stamPic1.jpg",
-              "name": "ActiveImage Name",
-              "action": "DefaultCommand",
-              "actionParam": "Hi",
-              "w": "70",
-              "h": "75"
-            },
-            {
-              "elementType": "ActiveImage",
-              "caption": "InsideInsideCanvas2",
-              "src": "stamPic1.jpg",
-              "name": "ActiveImage Name",
-              "action": "DefaultCommand",
-              "actionParam": "Hi",
-              "w": "120",
-              "h": "75"
-            }
-			
-          ],
-          "elementType": "Canvas",
-          "w": "250",
-          "h": "200",
-          "x": "250",
-          "y": "220"
-        },
+        }
+		,
+        {
+          "elementType": "ActiveImage",
+          "caption": "not First 2 day",
+          "src": "stamPic1.jpg",
+          "action": "DefaultCommand",
+          "actionParam": "Hi",
+          "w": "150",
+          "h": "150"
+        }
+		,
+        {
+          "elementType": "ActiveImage",
+          "caption": "not $$ day",
+          "src": "stamPic1.jpg",
+          "action": "DefaultCommand",
+          "actionParam": "Hi",
+          "w": "50",
+          "h": "150"
+        }
+			,
 		
         {
           "elementType": "ActiveImage",

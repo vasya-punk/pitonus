@@ -4,7 +4,7 @@ package Utils.Communication
 	import flash.events.EventDispatcher;
 	import flash.external.ExternalInterface;
 	import Utils.*;
-	import Utils.Console.*;
+
 	
 
 

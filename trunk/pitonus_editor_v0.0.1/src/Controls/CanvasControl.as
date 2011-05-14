@@ -30,39 +30,44 @@ package Controls
 			
 			super();
 			
+			_commands =  Manager.getCommands();
+			_activeElements = new Array();
 			_node = node;
-			this.canvas = _node.properties;
+			this.addCanvas(_node.properties);
 
 
 		}
-		public function set commands(commands:Object):void {
-			trace("set commands");
-			_commands = commands;
-			attachActions(); 
-		}
+
 			
-		public function addCanvas( canvasObject:Object ):Canvas {
-
-			removeCanvas();
+		public function addCanvas( canvasObject:Object ):void {
+			if(_canvas)
+				removeCanvas();
 
 			var canvas:Canvas = new Canvas();
-			canvas.addEventListener(SimpleEvent.SIMPLE_EVENT, mergeActiveElementsArrays );
+			//canvas.addEventListener(SimpleEvent.SIMPLE_EVENT, mergeActiveElementsArrays );
 			canvas.init( canvasObject );
-			
+
 			addChild(canvas);
 
-			return canvas;
+			_canvas = canvas;
+			
+			attachActions();
 		}
 
 			
 		private function mergeActiveElementsArrays(e:SimpleEvent):void {
-			_activeElements = arrConcatUnique(_activeElements,e.data)
-			trace("! " + _activeElements.length);
+			_activeElements = arrConcatUnique(_activeElements, e.data);
+			try{
+				trace("mergeActiveElementsArrays(): " + _activeElements.length + " " + e.data.length);
+			}catch (e) {
+					trace(e);
+			}
 		}
 		
 		public function attachActions():void {
+			//trace("attachActions()");
 			
-			var elementsOnPage:Array = _canvas.activeElements;
+			var elementsOnPage : Array = getActiveElementsRecursive(_canvas);
 			
 			var nSlot:uint = 0;
 			var runtimeClassRef:Class;
@@ -89,6 +94,8 @@ package Controls
 				}
 				
 			}
+			
+			_initialized = true;
 		}
 		
 		// CANVAS  -  GETTER / SETTER
@@ -96,13 +103,13 @@ package Controls
 			return _canvas;	
 		}
 		
-		public function set canvas( canvasObj:Object ):void {
-			_canvas = addCanvas( canvasObj);
-			_activeElements = new Array();
-			_initialized = true;
-			trace("canvas set");
+		public function removeActions():void {
+			var elementsOnPage:Array = _canvas.activeElements;
+			var nSlot:uint = 0;
+			for each( var element:* in elementsOnPage) {
+				this.removeButton(element);
+			}
 		}
-		
 		
 		public function removeCanvas( canvas:Canvas = null):void {
 			
@@ -110,6 +117,7 @@ package Controls
 			if(canvas == null){
 				if(_canvas){
 					try { 
+						removeActions();
 						_canvas.removeElements();	
 						removeChild( _canvas );
 						_canvas = null;
@@ -119,8 +127,10 @@ package Controls
 							trace("Error deleting page, or page not exist... " + e);
 					}
 				}
+				_initialized = false;
 			}else {
 				try { 
+						removeActions();
 						canvas.removeElements();	
 						removeChild( canvas );
 						canvas = null;
@@ -130,6 +140,7 @@ package Controls
 							trace("Error deleting page, or page not exist... " + e);
 					}
 			}
+			
 		}
 		
 		public function execute( param:String = ""):void {

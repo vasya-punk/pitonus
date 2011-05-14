@@ -2,18 +2,6 @@ package
 {
 
 
-	
-	
-	
-	
-	
-/*	
-	TODO 
-	background - Element: InputProperty
-	
-	
-	*/
-	
 	import com.adobe.protocols.dict.events.NoMatchEvent;
 	import org.as3commons.collections.ArrayList;
 	import org.as3commons.collections.framework.IListIterator;
@@ -21,6 +9,7 @@ package
 	import org.as3commons.ui.layout.constants.Align;
 	
 	import com.adobe.serialization.json.*;	
+	import com.flashdynamix.utils.*;
 	
     import flash.display.StageScaleMode;
     import flash.display.StageAlign;
@@ -29,7 +18,6 @@ package
 	import Controls.*
 	import Utils.*
 	import Utils.Communication.*;
-	import Utils.Console.*
 	import Managers.*;
 	
 	import Editor.*;
@@ -39,7 +27,6 @@ package
 	import flash.events.MouseEvent;
 	
 
-// TODU mousechildren = false > elements
 	public class Main extends Sprite 
 	{
 		// global vars
@@ -65,9 +52,8 @@ package
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			Manager.init();
-			Alert.init(this);
-			
-			//SWFProfiler.init(stage, this);
+
+			SWFProfiler.init(stage, this);
 			dataBridge = new JSBridge();
 			dataBridge.addEventListener( JSBridgeEvent.STRUCTURE_RECIEVED, processData);
 			
@@ -91,9 +77,8 @@ package
 			if (defaultPageNode) {
 				
 				var editor:Editor = new Editor( defaultPageNode );
-				editor.commands = Manager.getCommands();
-				editor.drawUi();
 				
+				editor.drawUi();
 				appWorkAreaSprite.addChild(editor);
 				
 			}else {

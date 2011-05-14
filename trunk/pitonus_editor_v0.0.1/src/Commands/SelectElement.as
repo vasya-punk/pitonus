@@ -19,7 +19,7 @@ package Commands{
 			if (Config.DEBUG && Config.DEBUG_LEVEL > 2)	
 				trace("\nSelectElement Command Executed.");
 
-			receiver.getElementProperties(element);
+			receiver.selectElement(element);
 		}
 	}
 }
