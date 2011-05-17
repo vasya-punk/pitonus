@@ -1,5 +1,6 @@
 package  Elements
 {
+	import Utils.Node;
 	public interface IElement
 	{
 		function setProperty(prop:String, value:String):Boolean;
@@ -8,9 +9,9 @@ package  Elements
 		function getProperties():Array;
 		
 		// Should be override in extended Classes !!!
-		function init(obj:Object):void;			
-		function update(obj:Object):void;			
-		function cleanUp():void;	
+		function init( )					:void;			
+		function update( obj:Object )		:void;			
+		function cleanUp()					:void;	
 		
 		/*function get id():uint;
 		function set id(value:uint):void;	*/

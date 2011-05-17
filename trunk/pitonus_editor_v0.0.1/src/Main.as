@@ -3,6 +3,7 @@ package
 
 
 	import com.adobe.protocols.dict.events.NoMatchEvent;
+	import flash.display.DisplayObjectContainer;
 	import org.as3commons.collections.ArrayList;
 	import org.as3commons.collections.framework.IListIterator;
 	import org.as3commons.ui.layout.HGroup;
@@ -74,17 +75,14 @@ package
 			
 			
 			var defaultPageNode:Node = Manager.getDefaultPageData(Config.DEFAULT_PAGE_ID);
-			if (defaultPageNode) {
-				
+
+			if (defaultPageNode) {		
 				var editor:Editor = new Editor( defaultPageNode );
-				
-				editor.drawUi();
-				appWorkAreaSprite.addChild(editor);
-				
+				appWorkAreaSprite.addChild(editor);	
 			}else {
 				trace("[Error] Manager.getDefaultPageData() returned empty Node");	
 			}
-		
+			//deepTrace(this);
 		}
 	
 		// INTERACTION ////////////////////////////////////////////////////////////////////////
@@ -135,6 +133,23 @@ package
 		public function save():void { 
 			/*var variables:String =  JSON.encode( _structure );
 			dataBridge.callJs("JsPitSave", variables);*/
+		}
+		
+		public function deepTrace(d:DisplayObjectContainer, indent:String = ''):void{
+			var i:int = 0;
+			var o:*;
+			while(i < d.numChildren){
+				o = d.getChildAt(i);
+				if(o is DisplayObjectContainer){
+					//trace(o);
+					trace(indent + o.name);
+					deepTrace(DisplayObjectContainer(o), indent + '\t');
+				} else {
+					//trace(o);
+					trace(indent + o.name);
+				}
+				i++;
+			}
 		}
 	}
 	

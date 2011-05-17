@@ -8,6 +8,10 @@ package  Elements
 	{
 		public var clickTarget:*;
 		
+		public function ActiveElement( node:Node ) {	
+			super( node );
+		}
+		
 		public function addClickTarget():void{
 			clickTarget = new ClickTarget( this, int(this.getProperty('w')),int(this.getProperty('h')) );
 		}

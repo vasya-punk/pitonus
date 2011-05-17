@@ -10,7 +10,8 @@ package Utils
 		}
 		if (parentMc) {
 			with (parentMc.graphics) {
-				beginFill( 0xDDDDDD , 0.5 );
+				clear();
+				beginFill( 0x969696 , 0.5 );
 				drawRect( rect.x, rect.y, rect.width, rect.height);
 			}
 		}

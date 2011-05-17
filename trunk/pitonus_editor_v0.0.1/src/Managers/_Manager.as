@@ -24,39 +24,23 @@ package Managers
 		protected var _elementClasses:	Object;			// list of inialized elements classes aviable in app
 		protected var _commandClasses:	Object;			// list of inialized commands classes aviable in app
 		
-		protected var _attributeTypes:	Object;			// Site structure, main Tree Object recieved from JSON
+		protected var _attributeTypes:	Object;			
 
-		
-/*		protected var _warappers:		Object;
-		public var _template:			Object;			// reference to site design
-		public var CURRENT_WRAPPER:		* = null;
-		public var CURRENT_VIEW:		* = null;				// reference to Current ViewObject]
-		public var currentPageID:		int = 0;				// reference to Current ViewObject
-*/		
-		// Should not be public
 		protected var _applicationData:Node;
 
-		protected var _testElement:*;
-			
 		public function _Manager(){}
 		
 		public function init():void { 
 			TweenPlugin.activate([AutoAlphaPlugin]);
 		}
 //////// GET ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-	
 
-		
 		public function getDefaultPageData(pageId:uint):Node {
-			
-//			trace( "\n\n" + _applicationData.childNodes[0].properties['elementType'] + " " + _applicationData.childNodes[0].properties['name']);
-			
-/*			traceNode(_applicationData);
-			traceObject(_applicationData.properties);*/
-		
-			//return _applicationData.properties['pages'][pageId] ;
 			return _applicationData.childNodes[pageId] ;
+		}
+		
+		public function getSiteRootNode():Node {
+			return _applicationData ;
 		}
 		
 		public function getCommands():Object {
@@ -79,10 +63,8 @@ package Managers
 			else
 				return null;
 		}
-		
-		
-		
-		public function getType( prop:String ):String {
+
+		public function getAttributeType( prop:String ):String {
 			for (var item:String in _attributeTypes) {
 				if(item == prop)
 					return _attributeTypes[item];
@@ -94,28 +76,30 @@ package Managers
 		
 		public function setStructure(obj:Object):Boolean {
 
-			if(obj['valid']){
+			if (obj['valid']) {
+				
 				try {
-					//var result:Object = parseTree(_structure);
 					
-					var root : Node =   parseTreeRecursive( obj )
-					root.properties = ( obj );
-					_applicationData = root;
+					_applicationData  =   parseTreeRecursive( obj );
+					_applicationData.properties = ( obj );
 					
-					/*applicationObjects = new Object();
-					applicationObjects['template']		= 	result['template'];
-					applicationObjects['pageObjects'] 	=	result['pages'];*/
 					var result:Object = parseTree(obj);
 					_elementTypes 						= 	result['elementTypes'];
 
 					trace("\nStructure is validated");
+					
 				}catch (e:Error) {
+					
 					trace("JSON STRUCTURE Error: " + e);	
 					_applicationData = null;
+					
 				}
+				
 			}else {
+				
 				_applicationData = null;
 				trace("[Error] > Object could not be loaded...");	
+				
 			}
 			
 			_attributeTypes = new Object();
@@ -127,35 +111,11 @@ package Managers
 
 			return true;
 		}
-	
-		public function addPage(pageObj:Object):void {
-			//applicationObjects['pageObjects'].push(pageObj)
-			trace("ADD PAGE applicationData");
-		}
-		
-		public function addElementToPage(pageId:uint, elementObj:Object):void {
-			trace("ADD ELEMENT TO PAGE applicationData");
-			//applicationObjects['pageObjects'][pageId]['elements'].push(elementObj);
-		}
-		
+
 		public function setAviableClasses(obj:Object):void {
 			_elementClasses = obj;
 		}
-		
-	/*	public function registerCurrentControl(control:*):void { 
-			CURRENT_VIEW = control;
-		}
-		public function registerWrappers(wrappers:Object):void { 
-			_warappers = wrappers;
-			CURRENT_WRAPPER = _warappers['pageWrapper'];
-		}
-		public function setDesignWrapper():void { 
-			CURRENT_WRAPPER = _warappers['designWrapper'];
-		}
-		public function setPageWrapper():void { 
-			CURRENT_WRAPPER = _warappers['pageWrapper'];
-		}*/
-		
+
 		public function registerCommands():void { 
 
 			_commandClasses = new Object();
@@ -191,23 +151,16 @@ package Managers
 			_commandClasses['qualifiedNames'][6] = "Commands::DefaultCommand";
 			_commandClasses['runtimeClassRefs'][6] =  DefaultCommand as Class;		
 			
-			_commandClasses['names'][6] = "RemoveElement"		
-			_commandClasses['qualifiedNames'][6] = "Commands::RemoveElement";
-			_commandClasses['runtimeClassRefs'][6] =  RemoveElement as Class;		
+			_commandClasses['names'][7] = "RemoveElement"		
+			_commandClasses['qualifiedNames'][7] = "Commands::RemoveElement";
+			_commandClasses['runtimeClassRefs'][7] =  RemoveElement as Class;		
 			
 			
-		}
-		
-		public function set testElement(element:*):void { 
-			_testElement = element;
-		}
-		
-		public function get testElement():* { 
-			return _testElement;
 		}
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+
 
 
 

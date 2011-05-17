@@ -33,6 +33,10 @@ package Utils {
         public function getItemAt( index : uint ) : * {
             return _childNodes[index];
         }
+		
+		public function removeNodeAt( index : uint ) : void {
+           _childNodes.splice(index,1)
+        }
 
         public function get numItems() : uint {
             return _childNodes.length;

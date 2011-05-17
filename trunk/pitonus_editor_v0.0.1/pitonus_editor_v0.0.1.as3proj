@@ -6,8 +6,8 @@
     <movie input="" />
     <movie path="bin\Pitonus_preBuild.swf" />
     <movie fps="30" />
-    <movie width="950" />
-    <movie height="550" />
+    <movie width="1250" />
+    <movie height="650" />
     <movie version="10" />
     <movie background="#FFFFFF" />
   </output>

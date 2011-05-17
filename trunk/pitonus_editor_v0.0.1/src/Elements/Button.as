@@ -9,24 +9,28 @@ package Elements
 	public class Button extends ActiveElement implements IElement
 	{
 
-		public function Button() {
-
+		public function Button( node:Node) {	
+			super( node );
 		}
-		override public function init( obj:Object ):void {
-			
-			_properties = obj;
+		
+		override public function init( ):void {
+		
 
-			var properties:Object =  new Object();
-			properties["caption"] 	= Attributes.INPUT
-			properties["action"]	= Attributes.LIST;
+			var editableProperties:Object =  new Object();
+			editableProperties["caption"] 	= Attributes.INPUT
+			editableProperties["action"]	= Attributes.LIST;
 
-			if (this.validateProperties(properties)) {					
+			if (this.validateProperties( editableProperties )) {
+				
 				clickTarget = new TextButton(this.getProperty("caption"));
 
 				addChild(clickTarget);
 				
 				setPosition();
 
+			}else {
+				
+					trace( "Found button without action");
 			}
 		}
 		

@@ -3,20 +3,20 @@ package Commands{
 	
 	import Controls.*;
 	
-	public class UpdateElement implements ICommand {
+	public class RemoveElement implements ICommand {
 			
 		private var receiver:*;
-		
-		public function UpdateElement(rec:*):void {
+			
+		public function RemoveElement(rec:*):void {
 			this.receiver = rec;
 		}	
 		
 		public function execute():void {
 			
 			if (Config.DEBUG && Config.DEBUG_LEVEL > 2)	
-				trace("... UpdateElement Command Executed.");
+				trace("\nRemoveElement Command Executed.");
 
-			receiver.updateElementProperties();
+			receiver.removeElement();
 		}
 	}
 }

@@ -8,7 +8,8 @@ package Utils
 		public var data:*;
 		
 		public function SimpleEvent(type:String, param:*){
-			super(SIMPLE_EVENT);
+			super(SIMPLE_EVENT, true, true);
+
 			this.data = param;
 		}
 	}

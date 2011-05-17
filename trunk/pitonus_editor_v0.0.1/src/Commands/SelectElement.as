@@ -17,7 +17,7 @@ package Commands{
 		public function execute():void {
 			
 			if (Config.DEBUG && Config.DEBUG_LEVEL > 2)	
-				trace("\nSelectElement Command Executed.");
+				trace("... SelectElement Command Executed.");
 
 			receiver.selectElement(element);
 		}

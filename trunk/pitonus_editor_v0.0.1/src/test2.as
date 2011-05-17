@@ -1,213 +1,147 @@
-package {
-        import org.as3commons.collections.framework.IRecursiveIterator;
-        import org.as3commons.collections.iterators.RecursiveIterator;
-        import flash.display.Sprite;
+package
+{
+    import flash.display.DisplayObjectContainer;
+    import flash.display.Sprite;
+    import flash.events.MouseEvent;
+    import com.greensock. * ;
+    import Utils.SimpleEvent;
+    import flash.events.Event;
 
-	import Elements.*;
-	import Controls.*
-	import Utils.*
-	import Utils.Communication.*;
-	import Utils.Console.*
-	import Managers.*;
-	
-	import Editor.*;
-	import com.sibirjak.asdpc.treeview.*;
-	import org.as3commons.collections.*;
-	import org.as3commons.collections.framework.*;	
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	
-	import com.adobe.serialization.json.*;	
-	
+    import org.as3commons.ui.layout.HGroup;
+    /* *
+    * ...
+    * @author Metaform ( c ) Interactive
+    */
+    public class test2  extends Sprite
+    {
 
-		
-        public class test2 extends Sprite {
-			private var dataBridge:					JSBridge;
-			private var obj:Object;
-			//private var _i:uint = 0;
-                public function test2() {
-					dataBridge = new JSBridge();
-					dataBridge.addEventListener( JSBridgeEvent.STRUCTURE_RECIEVED, processData);
-					function processData(e:JSBridgeEvent):void {
-						var str:String = e.data;
-						obj = JSON.decode( str );
-					}
-                        /*var root : Node = new Node();
-
-                        var child1 : Node = new Node();
-                        child1.children = [new Node(), new Node()];
-						
-                        var child2 : Node = new Node();
-                        child2.children = [new Node(), new Node()];
-						
-                        var child3 : Node = new Node();
-                        var child4 : Node = new Node();
-						
-                        child4.children = [new Node(), new Node()];
-                        child3.children = [child4, new Node()];
-
-                        root.children = [child1, child2, child3];*/
-	var s:String = '{"siteName":"Pitonus Demo","age":"0.25","pages":[{"pageId":"0","x":"5","y":"5","w":"600","h":"300","elementType":"Canvas","name":"homepage","elements":[{"name":"ElementProperties","elements":[{"elementType":"InputProperty","label":"First","value":"Default1","w":"150","h":"25"},{"elementType":"InputProperty","label":"Second","value":"Default2","w":"150","h":"25"}],"elementType":"Canvas","w":"200","h":"150","x":"50","y":"220"},{"elementType":"ActiveImage","caption":"First day","src":"stamPic.jpg","action":"DefaultCommand","actionParam":"Hi","w":"200","h":"150","x":"100","y":"100"},{"elementType":"ActiveImage","caption":"Another day","src":"stamPic2.jpg","action":"DefaultCommand","actionParam":"gl hf","w":"200","h":"150","x":"300","y":"100"}]}]}';					
-//var s:String = '{"siteName":"Pitonus Demo","age":"0.25","pages":[{"pageId":"0","x":"5","y":"5","w":"600","h":"300","elementType":"Canvas","name":"homepage","elements":[{"elementType":"Canvas","name":"ElementProperties","w":"200","h":"150","x":"50","y":"220","elements":[{"elementType":"InputProperty","label":"First","value":"Default1","w":"150","h":"25"},{"elementType":"InputProperty","label":"Second","value":"Default2","w":"150","h":"25"},{"elementType":"Canvas","w":"200","h":"150","x":"50","y":"220","name":"StamProperties","elements":[{"elementType":"InputProperty","label":"Second","value":"Default2","w":"150","h":"25"}]}]},{"elementType":"ActiveImage","caption":"First day","src":"stamPic.jpg","action":"DefaultCommand","actionParam":"Hi","w":"200","h":"150","x":"100","y":"100"},{"elementType":"ActiveImage","caption":"Another day","src":"stamPic2.jpg","action":"DefaultCommand","actionParam":"gl hf","w":"200","h":"150","x":"300","y":"100"},{"elementType":"ActiveImage","caption":"3 days","src":"stamPic.jpg","action":"DefaultCommand","actionParam":"Bad to Bone","w":"100","h":"150","x":"400","y":"150"}]}]}';
-//var s:String = '{"siteName":"Pitonus Demo","age":"0.25","elementType":"Root","pages":[{"pageId":"0","x":"5","y":"5","w":"600","h":"300","elementType":"Canvas","name":"homepage","elements":[{"elementType":"ActiveImage","caption":"First day","src":"stamPic.jpg","action":"DefaultCommand","actionParam":"Hi","w":"200","h":"150","x":"100","y":"100"},{"elementType":"ActiveImage","caption":"Another day","src":"stamPic2.jpg","action":"DefaultCommand","actionParam":"gl hf","w":"200","h":"150","x":"300","y":"100"}]},{"pageId":"0","x":"5","y":"5","w":"600","h":"300","elementType":"Canvas","name":"homepage","elements":[{"elementType":"ActiveImage","caption":"First day","src":"stamPic.jpg","action":"DefaultCommand","actionParam":"Hi","w":"200","h":"150","x":"100","y":"100"}]}]}';
-
-dataBridge.pitLoad(s);
-						
-						//var root : Node = new Node();
-						//root.obj = obj;
-						
-						
-						function rec(obj:Object, d:uint = 0):Node {
-							d++;
-							trace("\n");	
-							var node:Node;
-							node = new Node(obj['elementType']  + " " + obj['name']);
-							node.properties = obj;
-							for ( var s:String in obj ) {
-		
-								if (obj[s] is Array) {
-									
-									trace(prefix(d) + " Property is Array : [" + s  + "] ");
-									
-									var i:uint
-									var c:Array = new Array();
-									
-									
-									if (s == 'pages' || s == 'elements' ) {
-										
-										for ( i = 0; i < obj[s].length; i++ ) {
-											
-											var rc:Node = rec(obj[s][i], d);
-
-											if(rc != null){
-												rc.properties = obj[s][i];
-												c.push(rc);
-											}
-										}
-									}
-									
-											
-									node.childNodes = c;
-									//trace("\n" + d + " Children num: " + node.children.length + " "+ node);
-									
-								}else {
-									if(obj['elementType']){
-										trace(prefix(d) + " Element: " + obj['elementType'] + " : '" + s + "' = " + obj[s]);
-										
-									}else
-										trace(prefix(d) + " Property: " +  " : '" + s + "' = " + obj[s]);
-									
-								}
-								
-							}
-							
-							return (node) ? node : null;
-						}
-						
-						//traceObject(obj);
-						
-						
-
-						
-						
-						var root : Node =   parseTreeRecursive(obj)
-						root.properties = (obj);
-					
-						
-						trace( "\n ****** RecursiveIterator ******\n\nRoot");
-						traceObject(root.properties);				
-                        
-						var iterator : IRecursiveIterator = new RecursiveIterator(root);
-                        var item : Node;
-						
-					var canvases:uint = 0;
-
-                        while (iterator.hasNext()) {
-							item = iterator.next();
-
-							
-							try {
-								if (item.canvas)
-									canvases++
-									//if (item.children){// ['action'] == "DefaultCommand" )
-										trace( "\n\n\n." + prefix(iterator.depth) 
-													+ " | " + iterator.depth 
-													+ "  > " + item + " Element: " + item.canvas);
-										traceObject(item.properties);
-									//}
-									
-								
-							}catch (e:Error) {
-									trace("[Error] " + e);
-							}
-                        }
-						
-						
-						trace("\n\ntotal canvas found: " + canvases);
-/*						var list : ArrayList = new ArrayList();
-
-						var a:* = obj;
-						a['name'] = "Page " + a['pageId'];
-						list.add(a);*/
-
-						/* 
-						var dataSource : Node = new Node("Root");
-
-     var node_1 : Node = new Node("Node_1");
-      node_1.addNode(new Node("Node_1_1"));
-      node_1.addNode(new Node("Node_1_2"));
-      dataSource.addNode(node_1);
-
-      dataSource.addNode(new Node("Node_2"));*/
-
-             
-                      /*  var child1 : Node = new Node();
-                        child1.childNodes = [new Node(), new Node(), new Node()];
-						
-                        var child2 : Node = new Node();
-                        child2.childNodes = [new Node()];
-						
-                        var child3 : Node = new Node();
-                        var child4 : Node = new Node();
-						var child5 : Node = new Node();
-						
-                        child4.childNodes = [new Node(), new Node()];
-                        child3.childNodes = [child4, new Node()];
-
-						child5.childNodes = [child1, child2, child3];
-                        dataSource.addNode(child5);// = [child1, child2, child3];*/
-						
-				  var treeView : TreeView = new TreeView();
-				  treeView.dataSource = root;
-				  addChild(treeView);
-				  
-	  
-					/*	//var treeIterator : IIterator = list.iterator();         
-						var treeView:TreeView = new TreeView();		
-						treeView = new TreeView();
-						treeView.setStyle(TreeView.style.showRoot, false);
-						treeView.setSize(180,300);
-						treeView.dataSource = list;
-						addChild(treeView);*/
+        public function test2()
+        {
 			
-                        // Node 1
-                        // .......Node 2
-                        // .......Node 3
-                        // Node 4
-                        // .......Node 5
-                        // .......Node 6
-                        // Node 7
-                        // .......Node 8
-                        // ..............Node 9
-                        // ..............Node 10
-                        // .......Node 11
-                }
-				//private function set i(theI:uint):void {	_i = theI;	 }
-				/*
-				 * private function get i():uint {		
-					return ++_i;	
-				}*/
+			var papaElement : Sprite = new Sprite ();
+			addChild(papaElement);
+
+            var element1 : tester = new tester();
+            var element2 : tester = new tester();
+            var element3 : tester = new tester();
+
+            element1.name = "element1";
+            element2.name = "element2";
+            element3.name = "element3";
+
+            with ( element1.graphics ) {
+                beginFill( 0xDDDDDD , 0.5 );
+                drawRect( 10, 10, 80, 80 );
+            }
+
+            with ( element2.graphics ) {
+                beginFill( 0xD3DDDD , 0.5 );
+                drawRect( 50, 50, 120, 120 );
+            }
+
+            with ( element3.graphics ) {
+                beginFill( 0xD31DDD , 0.5 );
+                drawRect( 100, 100, 180, 180 );
+            }
+
+
+
+            element2.addChild( element3 );
+            element1.addChild( element2 );
+            papaElement.addChild( element1 );
+
+
+            this.addEventListener( MouseEvent.MOUSE_DOWN, func2 );
+
+            // element3.addEventListener( SimpleEvent.SIMPLE_EVENT, func1 );
+            // element1.addEventListener( SimpleEvent.SIMPLE_EVENT, func1 );
+            //this.addEventListener( SimpleEvent.SIMPLE_EVENT, func1 );
+
+            this.addEventListener( SimpleEvent.SIMPLE_EVENT, func1 );
+			element1.addEventListener( SimpleEvent.SIMPLE_EVENT, func1 );
+
+            function func1( e : SimpleEvent ) : void {
+				e.stopPropagation();
+                trace( ">>> " + e.data );
+            }
+
+            function func2( e : MouseEvent ) : void {
+                trace( ">>> " + e + " " + e.currentTarget.name + " : " + e.target.name /* + " id: " + e.target.id */ );
+            }
+
+
+
+
+                       var layout : HGroup = new HGroup();
+
+            layout.add( element1 );
+            layout.add( element2 );
+            layout.add( element3 );
+
+            layout.layout( this );
+           
+			trace("papaElement: " + papaElement.numChildren + " " + layout.numItems);
+			
+			this.removeChild(element2);
+			
+			
+            trace( "\n" );
+            traceDL( this );
+            trace( "\n" );
+
+			
+/*			var dispatcher : CustomDispatcher = new CustomDispatcher();
+			dispatcher.addEventListener( CustomDispatcher.ACTION, actionHandler );
+			dispatcher.doAction();*/
 
         }
+
+    
+		
+   
+	private function actionHandler( event : Event ) : void {
+            trace( "actionHandler: " + event );
+    }
+
+
+       
+    }
+
+}
+
+//  ---------------------------------------
+
+import flash.display.Sprite;
+import com.greensock. * ;
+import Utils.SimpleEvent;
+
+class tester extends Sprite	{
+    public static var id : uint = 0;
+	public var deny:Boolean = false;
+    public function tester() {
+        id ++ ;
+        TweenLite.delayedCall( 0.5, func );
+    }
+    private function func() : void {
+        // trace( "dispatchEvent: " + this.name );
+		if(name == "element3")
+			dispatchEvent( new SimpleEvent( SimpleEvent.SIMPLE_EVENT , "form " + name ) );
+	}
+
+}
+
+//  ---------------------------------------
+
+
+
+
+import flash.events.EventDispatcher;
+import flash.events.Event;
+
+class CustomDispatcher extends EventDispatcher {
+    public static var ACTION : String = "action";
+
+    public function doAction() : void {
+        dispatchEvent( new Event( CustomDispatcher.ACTION ) );
+    }
 }

@@ -10,40 +10,48 @@ package  Elements
 	// Abstract class, should be EXTENDED, but not INSTANCED
 	public class Element extends Sprite implements IElement
 	{
-		protected var _properties:Object;
-		protected var _editableProperties:Object;
-		protected var _bounds:Sprite;
+		protected var _node					: Node;
 		
-		protected var _initialized:Boolean = false;
+		protected var _editableProperties	: Object;
+		protected var _bounds				: Sprite;
 		
-		public function Element(obj:Object = null):void {
-			if (obj)
-				init(obj);
+		protected var _initialized			: Boolean = false;
+		
+		public function Element( node:Node ):void {
+			if ( node ) {
+				_node = node;
+				init();
+			}else {
+				throw new Error("[Error] Init Element failed");
+			}
 		}
 		
-		public function init(obj:Object):void {
+		public function init():void {
 
-			this._properties = obj;
-			trace(" -------- " + obj['elementType']);
+			//trace(" -------- " + _node.properties['elementType']);
+			
 			this.addBounds();
 			this.setPosition();
+			
 			_initialized = true;
+			
 		}
 		
-		public function update(obj:Object):void {
-			for (var item:String in obj)
+		public function update( obj:Object ):void {
+			for ( var item:String in obj )
 				this.setProperty(item, obj[item]);
-			init( obj );	
+			init();	
 		}
 
 		public function cleanUp():void {
 			trace("here display children should be removed");
 		}
+		
 		//  Element properties /////////////////////////////////////////////////////////////////////////////////////////
 		
 		public function setProperty(prop:String, value:String):Boolean {
 			if (this.isProperty(prop)){
-				this._properties[prop] = value;
+				_node.properties[prop] = value;
 				return true;
 			}else {
 				return false;	
@@ -52,7 +60,7 @@ package  Elements
 		
 		public function getProperty(prop:String):String {
 			if (this.isProperty(prop)){
-				return this._properties[prop];
+				return _node.properties[prop];
 			}else {
 				return null;
 			}
@@ -61,17 +69,21 @@ package  Elements
 		public function isProperty(prop:String):Boolean {
 			var result:Boolean = false;
 			try{
-				result = (this._properties[prop])? true : false;
+				result = ( _node.properties[prop] )? true : false;
 			}catch (e:Error) {
 				trace("[Error]:Property not found!\n" + e);
 			}
 			return result
 		}
+		
+		public function get node():Node{
+			return _node;
+		}
 			
 		// should be removed or reserved for system use only
 		public function getProperties():Array {
 			var props:Array = new Array();
-			for ( var p:String in this._properties) {
+			for ( var p:String in _node.properties) {
 					props.push(p);
 			}
 			return props;
@@ -80,6 +92,8 @@ package  Elements
 		public function getEditableProperties():Object {
 			return _editableProperties;
 		}
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		public function validateProperties(props:Object):Boolean {
 
@@ -107,7 +121,7 @@ package  Elements
 			}
 		}
 			
-		public function addBounds(color:uint = 0xFF0000, alpha:Number = 0.1):void {
+		public function addBounds(color:uint = 0xFFFFFF, alpha:Number = 0.85):void {
 			_bounds = new drawSquareBox(  int(this.getProperty('w')), int(this.getProperty('h')) , color, alpha );
 			_bounds.mouseEnabled = false;
 			addChild(_bounds);

@@ -26,37 +26,59 @@ package
 		
 		public static const  PROPERTIES_PANEL_CANVAS_DATA:Object  = 
 		{
-  "canvasType": "Panel",
-  "name": "Properties panel",
-  "x": "750",
-  "y": "5",
-  "w": "195",
-  "h": "540",
-  "elements": [
-  
-    {
-      "elementType": "Button",
-	  "identifier":"UPDATE_BUTTON",
-      "caption": "AddCanvas",
-      "action": "AddElement"
-    }, {
-      "elementType": "Button",
-	  "identifier":"REMOVE_BUTTON",
-      "caption": "RemoveCanvas",
-      "action": "RemoveElement"
-    }, {
-      "elementType": "Button",
-	  "identifier":"SAVE_BUTTON",
-      "caption": "UpdateElement",
-      "action": "UpdateElement"
-    }
-  ]
-}
-;
+		  "elementType": "Panel",
+		  "name": "Properties panel",
+		  "x": "10",
+		  "y": "450",
+		  "w": "900",
+		  "h": "150",
+		  "elements": [
+		   {
+			  "elementType": "Canvas",
+			   "name": "AttributesCanvas",
+			  "identifier":"ATTRIBUTES_PANEL",
+			   "w": "700",
+				"h": "130", "elements":[
+				
+				]
+			},
+			 {
+			  "elementType": "Button",
+			  "identifier":"SAVE_BUTTON",
+			  "caption": "UpdateElement",
+			  "action": "UpdateElement"
+			}
+		  ]
+		}
+		;
+	public static const  NAVIGATION_PANEL_DATA:Object  = {
+			
+		  "elementType": "Panel",
+		  "name": "Navigation panel",
+		  "x": "700",
+		  "y": "5",
+		  "w": "400",
+		  "h": "340",
+		  "elements": [
+		  {
+			"elementType" 	: "Tree",
+            "name" : "Tree Site",
+			"identifier":"NAVIGATION_TREE",
+            "w": 			"300",
+            "h" 		:	"300"
+			},{
+			  "elementType": "Button",
+			  "identifier":"SAVE_BUTTON",
+			  "caption": "AddElement",
+			  "action": "AddElement"
+			}
+		  ]
+		}
+		;
 		
-		public static const  TEST_CONTENT_DATA_STRING:String  = <![CDATA[
 		
-		
+	public static const  TEST_CONTENT_DATA_STRING:String  = <![CDATA[
+	
 		
 {
   "name": "Pitonus Demo",
@@ -76,62 +98,44 @@ package
         {
 		 "elementType": "Canvas",
           "w": "450",
-          "h": "150",
+          "h": "200",
 		  "identifier":"CANVAS_TO_REMOVE",
-          "name": "ElementProperties",
+          "name": "Canvas Element on homepage",
           "elements": [
             {
               "elementType": "ActiveImage",
               "caption": "Inside",
               "src": "stamPic.jpg",
-              "name": "ActiveImage Name",
+              "name": "Element1 in Canvas",
               "action": "DefaultCommand",
               "actionParam": "Hi",
-              "w": "50",
-              "h": "40"
-            },{
-              "elementType": "ActiveImage",
-              "caption": "InsideCanvas2",
-              "src": "stamPic.jpg",
-              "name": "ActiveImage Name",
-              "action": "DefaultCommand",
-              "actionParam": "Hi",
-              "w": "120",
-              "h": "30"
+              "w": "150",
+              "h": "150"
             },{
 		 "elementType": "Canvas",
-          "w": "50",
-          "h": "70",
+          "w": "250",
+          "h": "100",
 		  "identifier":"CANVAS_TO_REMOVE",
-          "name": "ElementProperties",
+          "name": "Canvas Element inside Canvas on page",
           "elements": [
             {
               "elementType": "ActiveImage",
               "caption": "Inside",
               "src": "stamPic.jpg",
-              "name": "ActiveImage Name",
+              "name": "Element1 in Canvas in Canvas on homepage",
               "action": "DefaultCommand",
               "actionParam": "Hi",
-              "w": "20",
-              "h": "40"
+              "w": "50",
+              "h": "50"
             },{
               "elementType": "ActiveImage",
               "caption": "InsideCanvas2",
               "src": "stamPic.jpg",
-              "name": "ActiveImage Name",
+              "name": "Element2 in Canvas in Canvas on homepage",
               "action": "DefaultCommand",
               "actionParam": "Hi",
               "w": "50",
-              "h": "30"
-            },{
-              "elementType": "ActiveImage",
-              "caption": "InsideCanvas3",
-              "src": "stamPic2.jpg",
-              "name": "ActiveImage Name",
-              "action": "DefaultCommand",
-              "actionParam": "Hi",
-              "w": "60",
-              "h": "30"
+              "h": "50"
             }
           ]
          
@@ -143,7 +147,7 @@ package
           "elementType": "ActiveImage",
           "caption": "First day",
           "src": "stamPic.jpg",
-          "name": "ActiveImage Name",
+          "name": "Element on homepage",
           "action": "DefaultCommand",
           "actionParam": "Hi",
           "w": "100",
@@ -151,9 +155,10 @@ package
         },
         {
           "elementType": "ActiveImage",
-          "caption": "not First 2 day",
+          "caption": "Element on homepage",
           "src": "stamPic1.jpg",
           "action": "DefaultCommand",
+		  "name": "Element on homepage",
           "actionParam": "Hi",
           "w": "150",
           "h": "150"
@@ -161,7 +166,7 @@ package
 		,
         {
           "elementType": "ActiveImage",
-          "caption": "not First 2 day",
+          "caption": "Element on homepage",
           "src": "stamPic1.jpg",
           "action": "DefaultCommand",
           "actionParam": "Hi",
@@ -197,7 +202,6 @@ package
 
 ]]>;
 ;
-			
 			//	var s:String = '{"siteName":"Pitonus Demo","age":"0.25","pages":[{"pageId":"0","pageType":"HomePage","pageName":"homepage","elements":[{"elementType":"Button","caption":"pageButton : Read more >>","x":"200","y":"350","action":"NextPage"},{"elementType":"StaticText","id":"1","x":"200","y":"100","w":"500","h":"150","briefText":"HEADER Lorem Ipsum is simply dummy text of the printing and typesetting industry.","fullText":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."},{"elementType":"StaticText","id":"2","x":"200","y":"220","w":"500","h":"100","briefText":"Second Header","fullText":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.."},{"elementType":"Image","src":"pageBg.png","x":"150","y":"50","w":"583","h":"372"}]},{"pageId":"1","pageType":"TextPage","pageName":"About us","elements":[{"elementType":"ActiveImage","caption":"Another day2","src":"stamPic2.jpg","x":"50","y":"300","action":"PreviousPage"},{"elementType":"StaticText","id":"2","x":"50","y":"50","w":"500","h":"100","briefText":"Header on second page","fullText":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.. By the way. it could be a htmlText, so it is possible to include images and hyperlinks within in.. "},{"elementType":"Button","id":"5","caption":"Prev Page","x":"200","y":"350","action":"PreviousPage"},{"elementType":"Image","src":"pageBg2.png","x":"150","y":"50","w":"583","h":"372"}]},{"pageId":"2","pageType":"TextPage","pageName":"Stam","elements":[{"elementType":"ActiveImage","caption":"Another day 3","src":"stamPic.jpg","x":"0","y":"200","action":"GotoToPageId","actionParam":"0"},{"elementType":"StaticText","id":"2","x":"50","y":"50","w":"500","h":"100","briefText":"Header on third page","fullText":"By the way. it could be a htmlText, so it is possible to include images and hyperlinks within in.. ","src":"stamPic.jpg"}]},{"pageId":"3","pageType":"TextPage","pageName":"Stam","elements":[{"elementType":"StaticText","id":"2","x":"50","y":"200","w":"500","h":"100","briefText":"Header on third page","fullText":"By the way. it could be a htmlText, so it is possible to include images and hyperlinks within i htmlText, so it is possible to include images and hyperlinks within in.. "}]},{"pageType":"editor","elements":[{"elementType":"NavigationToolbar"},{"elementType":"PropertiesToolbar"}]},{"pageType":"template","templateName":"Simple template","elements":[{"elementType":"Button","caption":"Homepage","action":"GotoToPageId","x":"50","y":"400","actionParam":"0"},{"elementType":"Button","caption":"Page 1","action":"GotoToPageId","x":"150","y":"400","actionParam":"1"},{"elementType":"Button","caption":"page 2","action":"GotoToPageId","x":"300","y":"400","actionParam":"2"},{"elementType":"Button","caption":"page 2","action":"GotoToPageId","x":"450","y":"400","actionParam":"3"},{"elementType":"Image","src":"siteBg.jpg","x":"0","y":"15","w":"800","h":"485"},{"elementType":"Image","src":"logo.png","x":"25","y":"30","w":"120","h":"60"}]}]}';
 			
 			

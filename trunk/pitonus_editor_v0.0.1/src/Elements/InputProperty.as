@@ -17,41 +17,41 @@ package Elements
 	public class InputProperty extends Element implements IElement
 	{
 		private var input:TextInput;
-		private var label:Label;		
+		private var label:Label;				
 		
-		public function InputProperty() {
+		public function InputProperty( node:Node) {	
+			super( node );
+		}		
 
-		}
-		
 		public function getValue():String { 
 			return String( input.text ); 
 		}
 		
-		override public function init(obj:Object):void {
+		override public function init():void {
 			
-			_properties = obj;
+/*			_properties = obj;
 			// essential properties
 		
 			var properties:Object =  new Object();
 			properties["label"] 	= Attributes.INPUT
 			properties["value"]		= Attributes.INPUT;
 
-			if (this.validateProperties(properties)) {	
+			if (this.validateProperties(properties)) {	*/
 				
 				addBounds(0xC0C0C0);
 				setPosition();
 				
 				label = new Label();
-				label.text = obj['label'];
+				label.text = _node.properties['label'];
 				addChild(label);
 				
 				input = new TextInput();
-				input.text = obj['value'];
+				input.text = _node.properties['value'];
 				input.x = 50;
 				addChild(input);
 
 
-			}
+			//}
 		}
 	}
 

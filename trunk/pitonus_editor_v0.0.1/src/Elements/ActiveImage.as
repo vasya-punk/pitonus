@@ -11,19 +11,20 @@ package Elements
 		//private var  AIClip:ActiveImageClip;
 		
 		
-
+		public function ActiveImage( node:Node) {	
+			super( node );
+		}
 		
-		override public function init( obj:Object ):void {
+		override public function init():void {
 			
-			_properties = obj;
-			
-			var properties:Object =  new Object();
-			properties["caption"] 	= Attributes.INPUT
-			properties["src"]		= Attributes.UPLOAD;
-			properties["w"]			= Attributes.NUMBER;
-			properties["h"]			= Attributes.NUMBER;
 
-			if( validateProperties(properties) ){		
+			var editableProperties:Object =  new Object();
+			editableProperties["caption"] 	= Attributes.INPUT
+			editableProperties["src"]		= Attributes.UPLOAD;
+			editableProperties["w"]			= Attributes.NUMBER;
+			editableProperties["h"]			= Attributes.NUMBER;
+
+			if( validateProperties(editableProperties) ){		
 			
 				/*this.AIClip = new ActiveImageClip();
 				this.addChild(AIClip);

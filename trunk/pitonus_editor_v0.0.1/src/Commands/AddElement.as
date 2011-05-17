@@ -46,12 +46,25 @@ package Commands{
 			this.receiver = rec;
 		}	
 		
-		public function execute():void {
+			public function execute():void {
+			
+			
+			 var elementObject:Object = new Object();
+
+		  elementObject["elementType"] = "ActiveImage";
+		  elementObject["caption"] = "New";
+		  elementObject["src"] = "pic.jpg";
+		  elementObject["name"] = "Element1 in Canvas";
+		  elementObject["action"] = "DefaultCommand";
+		  elementObject["actionParam"] = "Hi";
+		  elementObject["name"] = "New Element";
+		  elementObject["w"] = "150";
+		  elementObject["h"] = "150";
 			
 			if (Config.DEBUG && Config.DEBUG_LEVEL > 2)	
-				trace("\nAddElement Command Executed.");
+				trace("... AddElement Command Executed.");
 
-			receiver.addElement(element);
+			receiver.addNewElement(elementObject);
 		}
 	}
 }

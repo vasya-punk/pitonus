@@ -1,4 +1,4 @@
-package Utils
+package Managers
 {
 	
 	import com.greensock.*;
@@ -10,7 +10,7 @@ package Utils
 
 	import flash.events.EventDispatcher;
 
-	import Managers.*;
+	import Utils.*;
 	
 	public class ElementsClassesLoader extends EventDispatcher {
 
@@ -36,29 +36,34 @@ package Utils
 			aviableClassesNames['qualifiedNames'] = new Array();
 			aviableClassesNames['runtimeClassRefs'] = new Array();
 			
+			
+			aviableClassesNames['fileNames'][0] = Config.ELEMENTS_CLASSES_PATH + "Button.swf"		
+			aviableClassesNames['names'][0] = "Button";
+			aviableClassesNames['qualifiedNames'][0] = "Elements::Button"
+			
 /*			aviableClassesNames['fileNames'][0] = Config.ELEMENTS_CLASSES_PATH + "StaticText.swf"		
 			aviableClassesNames['names'][0] = "StaticText";
 			aviableClassesNames['qualifiedNames'][0] = "Elements::StaticText"
-*/			
-			aviableClassesNames['fileNames'][1] = Config.ELEMENTS_CLASSES_PATH + "Button.swf"		
-			aviableClassesNames['names'][1] = "Button";
-			aviableClassesNames['qualifiedNames'][1] = "Elements::Button"
+			*/
 			
-			aviableClassesNames['fileNames'][2] = Config.ELEMENTS_CLASSES_PATH + "ActiveImage.swf"		
-			aviableClassesNames['names'][2] = "ActiveImage";
-			aviableClassesNames['qualifiedNames'][2] = "Elements::ActiveImage"
+			
+			aviableClassesNames['fileNames'][3] = Config.ELEMENTS_CLASSES_PATH + "ActiveImage.swf"		
+			aviableClassesNames['names'][3] = "ActiveImage";
+			aviableClassesNames['qualifiedNames'][3] = "Elements::ActiveImage"
 
-			aviableClassesNames['fileNames'][3] = Config.ELEMENTS_CLASSES_PATH + "InputProperty.swf"		
-			aviableClassesNames['names'][3] = "InputProperty";
-			aviableClassesNames['qualifiedNames'][3] = "Elements::InputProperty"
+			aviableClassesNames['fileNames'][4] = Config.ELEMENTS_CLASSES_PATH + "InputProperty.swf"		
+			aviableClassesNames['names'][4] = "InputProperty";
+			aviableClassesNames['qualifiedNames'][4] = "Elements::InputProperty"
 			
-			aviableClassesNames['fileNames'][4] = Config.ELEMENTS_CLASSES_PATH + "Canvas.swf"		
-			aviableClassesNames['names'][4] = "Canvas";
-			aviableClassesNames['qualifiedNames'][4] = "Elements::Canvas"
+			aviableClassesNames['fileNames'][1] = Config.ELEMENTS_CLASSES_PATH + "Canvas.swf"		
+			aviableClassesNames['names'][1] = "Canvas";
+			aviableClassesNames['qualifiedNames'][1] = "Elements::Canvas"
 			
-
-						
-/*			aviableClassesNames['fileNames'][3] = Config.ELEMENTS_CLASSES_PATH + "Image.swf"		
+			aviableClassesNames['fileNames'][2] = Config.ELEMENTS_CLASSES_PATH + "Tree.swf"		
+			aviableClassesNames['names'][2] = "Tree";
+			aviableClassesNames['qualifiedNames'][2] = "Elements::Tree"
+/*						
+			aviableClassesNames['fileNames'][3] = Config.ELEMENTS_CLASSES_PATH + "Image.swf"		
 			aviableClassesNames['names'][3] = "Image";
 			aviableClassesNames['qualifiedNames'][3] = "Elements::Image"
 
@@ -68,10 +73,11 @@ package Utils
 			// use Static reference
 			//aviableClassesNames['runtimeClassRefs'][0] = getClass(StaticText);
 			//aviableClassesNames['runtimeClassRefs'][1] = getClass(Button);
-			aviableClassesNames['runtimeClassRefs'][2] = getClass(ActiveImage);
-			aviableClassesNames['runtimeClassRefs'][3] = getClass(InputProperty);
-			aviableClassesNames['runtimeClassRefs'][1] = getClass(Button);
-			aviableClassesNames['runtimeClassRefs'][4] = getClass(Canvas);
+			aviableClassesNames['runtimeClassRefs'][3] = getClass(ActiveImage);
+			aviableClassesNames['runtimeClassRefs'][4] = getClass(InputProperty);
+			aviableClassesNames['runtimeClassRefs'][0] = getClass(Button);
+			aviableClassesNames['runtimeClassRefs'][1] = getClass(Canvas);
+			aviableClassesNames['runtimeClassRefs'][2] = getClass(Tree);
 			
 			//aviableClassesNames['names'][4] = "Canvas";
 			

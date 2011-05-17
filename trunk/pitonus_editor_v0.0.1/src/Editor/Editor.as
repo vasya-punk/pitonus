@@ -4,6 +4,8 @@ package Editor
     import Configuration. * ;
     import flash.display. * ;
     import flash.events. * ;
+    import org.as3commons.collections.framework.IRecursiveIterator;
+	import org.as3commons.collections.iterators.RecursiveIterator;
 
     import Commands. * ;
     import Elements. * ;
@@ -19,17 +21,21 @@ package Editor
 
         public function Editor ( node : Node  ) {
             super( node );
-			_commands =  Manager.getCommands();
+            _commands =  Manager.getCommands();
+			            drawUi();
         }
 
         override public function attachActions() : void {
 
-            var elementsOnPage : Array = getActiveElementsRecursive(_canvas);
 
-			//var a:Array = getActiveElementsRecursive(_canvas);
-			
-			//trace(a + " Total length: " + a.length);
-			
+
+
+            var elementsOnPage : Array = getActiveElementsRecursive( _canvas );
+
+            // var a : Array = getActiveElementsRecursive( _canvas );
+
+            // trace( a + " Total length: " + a.length );
+
             var nSlot : uint = 0;
             var runtimeClassRef : Class;
             var command : * ;
@@ -47,70 +53,99 @@ package Editor
                 nSlot ++ ;
 
             }
+
+
         }
+
         public function drawUi() : void {
-            			Manager.testElement = _canvas.activeElements[0];
+           _workspace = new Object();
+		   
+			// Should be replaced by Class Workspace
 
-            var m : Node = new Node( "ElementPropertiesPanel" );
-            m.properties = Config.PROPERTIES_PANEL_CANVAS_DATA
 
-            _workspace = new Object();
-            _workspace['properties'] = new PropertiesPanel( m );
-            _workspace['properties'].reciver = this;
-            _workspace['properties'].element = Manager.testElement;
-  
-            addChild( _workspace['properties'] ); 
+            _workspace['properties'] = new PropertiesPanel( this, _node ,Config.PROPERTIES_PANEL_CANVAS_DATA );
+            //_workspace['properties'].element = Manager.testElement;
+            addChild( _workspace['properties'] );
 
+            _workspace['navigation'] = new NavigationPanel( this, _node , Config.NAVIGATION_PANEL_DATA );
+            addChild( _workspace['navigation'] );
+
+
+            _workspace['navigation'].addEventListener( SimpleEvent.SIMPLE_EVENT, selectNodeInEditor );
+
+
+			
 
         }
-		
+        private function selectNodeInEditor( e : SimpleEvent ) : void {
+            trace( "navigation Event recived - Node to select: " + e.data );
+			
+			e.stopPropagation();
+			
+			var selectedNode:Node = e.data;
+			
+			//var totalElements : Array = getElementsRecursive( _canvas );
+			var element : Element = findElementRecursive( _canvas, selectedNode );
+			if(element )
+				selectElement(element);
+			else
+				trace("NotFound!!!");
+			
+		/*	var requestedNode:Node = e.data;
+			
+            var iterator : IRecursiveIterator = new RecursiveIterator( _node );
+            var item : Node;
+
+			
+			
+			
+            while ( iterator.hasNext() ) {
+                item = iterator.next();
+                try {
+                  
+                    // traceObject( item.properties );
+					if (requestedNode == item) {
+						//selectElement();
+						trace( "Node found! " +  prefix( iterator.depth )
+                    + " | " + iterator.depth
+                    + "  > " + item + " Element: " + item.properties['elementType'] );
+					}
+                }
+                catch ( e : Error ) {
+                    trace( "[Error] " + e );
+                }
+            }*/
+        }
+
+		// Called by Command
         public function selectElement( param : Element ) : void {
-            trace( "  CanvasControl method executed. param: " + param );
+           // trace( "  Editor method executed. param: " + param );
+
+            var tree : Tree = _workspace['navigation'].selectElementOnCanvas( 'NAVIGATION_TREE' ) ;
+            tree.selectNode( param.node );
+		
 			_workspace['properties'].element = param;
+			
+        }
+
+       public function addNewElement( obj : Object ) : void {
+            
+
+       
+			
+			addElement(obj);
+			_workspace['navigation'].update();
+        }
+/*
+        public function removeElement( element : Element ) : void {
+
+            _node.properties['elements'].splice( _node.numItems - 1, 1 );
+            _node.removeNodeAt( _node.numItems - 1 );
             update();
         }
+*/
 
-		public function addElement( param : Object ) : void {
-            trace( "  CanvasControl method executed. param: " + param );
-			//_canvas.
-			var node:Node = new Node("new Node");
-			node.properties = param;
-            _node.addNode( node );
-			_node.properties['elements'].push(param);
-			//_canvas.canvasObject['elements'].push(param);
-			update();
-        }
-		
-		public function removeElement( element : Element ) : void {
-           /* trace( "  CanvasControl method executed. param: " + param );
-			//_canvas.
-			var node:Node = new Node("new Node");
-			node.properties = param;
-            _node.addNode( node );
-			_node.properties['elements'].push(param);
-			//_canvas.canvasObject['elements'].push(param);*/
-			
-			
-			update();
-        }
 
-		
-		
-        public function update() : void {
-            _activeElements = null;
-            var defaultPageNode : Node = Manager.getDefaultPageData( Config.DEFAULT_PAGE_ID );
-            if ( defaultPageNode ) {
-                this.addCanvas( defaultPageNode.properties );
-                // editor.drawUi();
-            }
-        }
-
-        public function desturct() : void {
-            /* this._currentPageInstance.removeElements();
-            this.removePage( this._currentPageInstance ); */
-            // removeChild( this._elementControl );
-            // Listenrs should be removed too
-        }
 
     }
 }
