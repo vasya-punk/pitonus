@@ -69,12 +69,10 @@ package
 
 				
 		}
-		private function  buildApplicationUI( appStructure:Object ):void {
-			
+		private function  buildApplication( appStructure:Object ):void {
 
-			
-			
-			var defaultPageNode:Node = Manager.getDefaultPageData(Config.DEFAULT_PAGE_ID);
+			var defaultPageNode:DataNode = Manager.getPageNode(Config.DEFAULT_PAGE_ID);
+			Manager.selectedPageId = Config.DEFAULT_PAGE_ID;
 
 			if (defaultPageNode) {		
 				var editor:Editor = new Editor( defaultPageNode );
@@ -111,18 +109,24 @@ package
 					obj['valid'] = false;						
 				}
 			}else {
-					trace("Site structure and external classes are already loaded","Reload page instead");
+					trace("Site structure and external classes are already loaded", "Reload page instead");
 			}
 			
 			if ( Manager.setStructure(obj) ) {	
-				Manager.registerCommands();
+				
+				
 				var elementsClassesLoader:ElementsClassesLoader = new ElementsClassesLoader( Manager.getElementsTypes() );
+				
 				elementsClassesLoader.addEventListener(EventReady.READY, elementClassesLoaded);
 				
 				function elementClassesLoaded(e:EventReady):void {
+					
+					Manager.registerCommands();
 					Manager.setAviableClasses(e.obj);	
+					
 					structureLoaded = true;
-					buildApplicationUI( obj );	
+					
+					buildApplication( obj );	
 				}
 				
 			}else {

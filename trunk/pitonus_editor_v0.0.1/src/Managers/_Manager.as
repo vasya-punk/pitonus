@@ -26,21 +26,32 @@ package Managers
 		
 		protected var _attributeTypes:	Object;			
 
-		protected var _applicationData:Node;
+		protected var _applicationData:DataNode;
+		
+		private var _selectedPageId:uint;
 
 		public function _Manager(){}
 		
 		public function init():void { 
 			TweenPlugin.activate([AutoAlphaPlugin]);
 		}
-//////// GET ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		public function addPage():void {
+			_applicationData.addNodeFromObject(Config.NEW_PAGE_DATA);
+		}
+		
+//////// GET //////////////////////////////////////////////////////////////////////////////////////////////
 
-		public function getDefaultPageData(pageId:uint):Node {
+		public function getPageNode(pageId:uint):DataNode {
 			return _applicationData.childNodes[pageId] ;
 		}
 		
-		public function getSiteRootNode():Node {
-			return _applicationData ;
+		public function getSelectedPageNode():DataNode {
+			return _applicationData.childNodes[_selectedPageId] ;
+		}
+		
+		public function getNumPages():uint {
+			return _applicationData.childNodes.length ;
 		}
 		
 		public function getCommands():Object {
@@ -73,6 +84,9 @@ package Managers
 		}		
 		
 //////// SET ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		public function set selectedPageId(id:uint):void {
+			_selectedPageId = id;
+		}
 		
 		public function setStructure(obj:Object):Boolean {
 
@@ -80,13 +94,18 @@ package Managers
 				
 				try {
 					
-					_applicationData  =   parseTreeRecursive( obj );
-					_applicationData.properties = ( obj );
+					_elementTypes = new Array();
 					
-					var result:Object = parseTree(obj);
-					_elementTypes 						= 	result['elementTypes'];
+					_applicationData  =   parseTreeRecursive( obj, _elementTypes  );
+					//_applicationData.properties = ( obj );
+					
+					//var result:Object = parseTree(obj);
+					//_elementTypes 						= 	result['elementTypes'];
 
 					trace("\nStructure is validated");
+					
+					/*trace(_applicationData + " : " + _applicationData.properties );
+					traceObject(_applicationData.properties);*/
 					
 				}catch (e:Error) {
 					
@@ -155,7 +174,9 @@ package Managers
 			_commandClasses['qualifiedNames'][7] = "Commands::RemoveElement";
 			_commandClasses['runtimeClassRefs'][7] =  RemoveElement as Class;		
 			
-			
+			_commandClasses['names'][7] = "AddPage"		
+			_commandClasses['qualifiedNames'][7] = "Commands::AddPage";
+			_commandClasses['runtimeClassRefs'][7] =  AddPage as Class;					
 		}
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////

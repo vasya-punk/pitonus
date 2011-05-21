@@ -17,12 +17,12 @@ package Controls
 		
 		protected var _commands:Object;
 		protected var _canvas:Canvas;
-		protected var _node:Node;
+		protected var _node:DataNode;
 		protected var _activeElements:Array;
 	 
 		protected var _initialized:Boolean = false;
 		  
-		public function CanvasControl( node:Node ) {
+		public function CanvasControl( node:DataNode ) {
 			
 			//traceObject(node.properties);
 			
@@ -60,7 +60,7 @@ package Controls
 			
 			//traceObject( elementObject);
 			
-			var n:Node = new Node("NewElement");
+			var n:DataNode = new DataNode();
 			
 			n.properties = elementObject;
 
@@ -81,8 +81,9 @@ package Controls
 			return _canvas.selectElementByIdentifier(identifier);
 		}
 			
-		public function addCanvas( node:Node ):void {
-			//trace("       CanvasControl::addCanvas() " + node.properties['elementType']);
+		public function drawCanvas( node:DataNode ):void {
+			
+			//trace("\nCanvasControl::addCanvas() " + node.properties['elementType']) + "\n";
 			
 			if(_canvas)
 				removeCanvas();
@@ -95,7 +96,11 @@ package Controls
 			
 			attachActions();
 		}
-
+		
+		// Function to be override in extended classes
+		public function addCanvas( node:DataNode ):void {
+			drawCanvas(node);
+		}
 
 		public function attachActions():void {
 			//trace("attachActions()");
@@ -107,9 +112,9 @@ package Controls
 			for each( var element:* in elementsOnPage) {
 				
 				for ( var position:uint = 0;  position < _commands['names'].length; position++ ) {
-					//trace("_commands['names'][position] " + _commands['names'][position] + " : " + element.getProperty("action"));
+				
 					if ( _commands['names'][position] == element.getProperty("action")) {
-						
+						trace("_commands['names'][position] " + _commands['names'][position] + " : " + element.getProperty("action"));
 							runtimeClassRef = _commands['runtimeClassRefs'][position];
 							if (element.getProperty("actionParam"))
 								command = new runtimeClassRef( this, element.getProperty("actionParam") );

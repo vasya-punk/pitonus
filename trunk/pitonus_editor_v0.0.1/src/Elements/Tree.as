@@ -40,16 +40,49 @@ package Elements
 
         public var view : TreeView;
 
-        public function Tree( node  : Node ) {
-            //trace( "Tree const" );
+        public function Tree( node  : DataNode ) {
+
             super( node );
         }
 		
-        public function selectNode( node  : Node ) {
-            view.expandNodeAt( 0, true );
+        public function selectNode( node  : Node ):void {
+			
+			//trace(": " + node);
+			//trace("------------> recieved: " + node);
+           view.expandNodeAt( 0, true );
+		   
+		   
+		  // trace("-- " + view.numItems);
+
             // view.expandNodeAt( 1, true );
-            view.selectItemAt( node.id  - 1 );
+
             // view.expandNodeAt( 3, false ); */
+			
+			
+			
+			var requestedNode : Node = node;
+
+			var iterator : IRecursiveIterator = new RecursiveIterator( Manager.getSelectedPageNode() );
+			var item : Node;
+
+			
+			var i:uint = 0;
+			while ( iterator.hasNext() ) {
+				item = iterator.next();
+				
+				try {
+					trace(requestedNode + " | " + item + " | " + i);
+					if ( requestedNode == item ) {
+						view.selectItemAt( i );
+						trace( prefix( iterator.depth ) + " | " + item + " id: " + item.id );
+					}
+				}
+				catch ( e : Error ) {
+					trace( "[Error] " + e );
+				}
+				i++;
+			}
+			
         }
 		
         override public function init() : void {
@@ -57,35 +90,47 @@ package Elements
             //trace( "Tree init" );
             addBounds();
 
-            view = new TreeView();
-            view.dataSource = Manager.getSiteRootNode();
+            initTreeView();
+
+        }
+		
+		private function initTreeView():void{
+			view = new TreeView();
+            view.dataSource = Manager.getSelectedPageNode();
 
             view.setStyle( TreeView.style.showRoot, false );
             view.setSize(  int( _node.properties['w'] ) - 10, int( _node.properties['h'] )   );
 
-
             addChild( view );
 
             view.addEventListener( TreeNodeEvent.SELECTION_CHANGED, selectHandler );
-
-
-
-
-         
-
-            function selectHandler( e : TreeNodeEvent ) : void {
+		}
+			
+		
+		private function selectHandler( e : TreeNodeEvent ) : void {
 
                 if ( e.selected ) {
-                    //trace( e.item + " "  + ( e.item as Node ).id );
+                    trace( e.item + " : "  + ( e.item as Node ).id );
                     // traceObject( event.item.properties, event.item );
 					dispatchEvent( new SimpleEvent(SimpleEvent.SIMPLE_EVENT , e.item as Node ) );
                 }
                 else {
                     trace( "No item selected" );
                 }
-            }
-
         }
+		 
+		override public function update(obj:Object) : void {
+			trace("Tree update()");
+			
+			view.removeEventListener( TreeNodeEvent.SELECTION_CHANGED, selectHandler );
+			removeChild(view);
+			
+			view = null;
+			
+			initTreeView();
+			
+
+		}
 
 
     }

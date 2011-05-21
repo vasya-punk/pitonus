@@ -34,7 +34,8 @@ package Elements
 
         private var initialized : Boolean = false;
 
-		public function Canvas( node:Node) {	
+		public function Canvas( node:DataNode) {
+			//trace( "Canvas: "  + node );
 			super( node );
 		}
 
@@ -84,14 +85,18 @@ package Elements
 		
 		public function selectElementByIdentifier( identifier:String ) : * {
 			for each( var element:Element in _elements) {
-				if (element.getProperty('identifier') == identifier)
-					return element;
-				else
-					return null;
+				if (element.getProperty('identifier')) {
+					
+					if (element.getProperty('identifier') == identifier)
+						return element;
+					
+				}
+				
 			}
+			return null;
         }
 
-        private function draw(  ) : void {
+        private function draw() : void {
 
 			
             if ( initialized ) {
@@ -105,7 +110,7 @@ package Elements
 
                 var elementObjects : Array = new Array();
 				
-                for each( var elementNode : Node in _node.childNodes ){//['elements'] ) {
+                for each( var elementNode : DataNode  in _node.childNodes ){//['elements'] ) {
 					
          			var elementType:String = elementNode.properties['elementType'];
 					
@@ -115,7 +120,7 @@ package Elements
 						/*var r:Number = randomRange(10,20);
 						elementObj['w'] = String(   int(elementObj['w']) + r  - 15 );*/
 						
-                        var element : * = createElement( _aviableElements['runtimeClassRefs'][elementTypeNum], elementNode );
+                        var element : * = createElement( _aviableElements['runtimeClassRefs'][elementTypeNum], elementNode);
 
 						_elements.push(element);
 						

@@ -38,34 +38,82 @@ package Editor
     public class  NavigationPanel extends CanvasControl
     {      
 		
-        private var _reciver : * ;
+        private var _reciver :*;
 		private var _rootNode:Node;
+		private var _treeView:Tree;
+		private var p:uint = 0;
 		
-        public function NavigationPanel(  rec:*, rootNode : Node, panelData:Object) {
-			
+        public function NavigationPanel(  rec:*, rootNode : DataNode ) {
+
 			// Control Class holds only command interface
 			
-			
-			_reciver = rec;
-			_rootNode = rootNode;
-			
-			_node  =   parseTreeRecursive( panelData );
-			_node.properties = panelData;
-			super(_node);
+			_reciver 	= rec;
+			_rootNode 	= rootNode;
 
-			buildPanel();
-        }
+			super(parseTreeRecursive( Config.NAVIGATION_PANEL_DATA , new Array()));
+		
+		
+			
+			var attributesCanvas:Canvas = selectElementOnCanvas("NAVIGATION_PAGES");
+			//attributesCanvas.node.removeNodes();
+			for (var i:uint = 0; i < Manager.getNumPages()  ; i++ ) {
+				addNewPageLabel	( attributesCanvas, new Object );
+			}
+			drawCanvas(_node);
+			
+			_treeView = selectElementOnCanvas("NAVIGATION_TREE");
+       }
 		
 
 		
-		public function buildPanel():void {
+		public function gotoPage(id:uint):void {
+			_reciver.gotoPageId(id);
+		}
+		
+		public function addNewPage():void {
+			_reciver.addNewPage();
+		}
+		
+		public function updatePages():void {
+			
+			var attributesCanvas:Canvas = selectElementOnCanvas("NAVIGATION_PAGES");
+			attributesCanvas.node.removeNodes();
+			
+			for (var i:uint = 0; i < Manager.getNumPages()  ; i++ ) {
+				addNewPageLabel	( attributesCanvas, new Object );
+			}
+			drawCanvas(_node);
+			
+			_treeView = selectElementOnCanvas("NAVIGATION_TREE")
+		
+		}
+		public function updateTree():void {
+			_treeView.update(null);
+			p = 0;
+			//removeCanvas();
+			//addCanvas(parseTreeRecursive( Config.NAVIGATION_PANEL_DATA, new Array()) );
 		}
 
-
+		
 		public function addNewElement(element:*):void {
 			_reciver.addNewElement(element);
 		}
+		
+		public function selectElement( node : DataNode ):void {
+			_treeView.selectNode(node);
+		}
 
+		public function addNewPageLabel( canvas:Canvas, obj : Object ) : void {
+			
+			obj["elementType"] =  "Button";
+			obj["caption"] =   "Page";
+			obj["action"] =   "GotoToPageId";
+			obj["actionParam"] =  String(p) ;
+			obj["w"] =   "95";
+			obj["h"] =   "22";
+			p++;
+			canvas.node.addNodeFromObject(obj);
 
+		}
     }
 }

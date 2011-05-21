@@ -43,16 +43,12 @@ package Editor
 		
        private var _reciver :  * ;
     
-		public function PropertiesPanel(  rec:*, rootNode : Node, panelData:Object) {
-			
-			_panelData = panelData;
+		public function PropertiesPanel(  rec:*, rootNode : Node) {
+
 			_reciver = rec;
 			_rootNode = rootNode;
-			
-			_node  =   parseTreeRecursive( _panelData );
-			_node.properties = _panelData;
 
-			super(_node);
+			super(parseTreeRecursive( Config.PROPERTIES_PANEL_CANVAS_DATA , new Array()));
 			
 	
 		}
@@ -69,42 +65,48 @@ package Editor
          }
 		
 		public function set element( element : * ):void{
+
+			trace("PropertiesPanel: " + element);
+			
+			var attributesCanvas:Canvas = selectElementOnCanvas("ATTRIBUTES_PANEL");
+			attributesCanvas.node.removeNodes();
 			
 			_currentElement = element;
-
-			// Select canvas for insert element
-			var attributesCanvas:Canvas = selectElementOnCanvas("ATTRIBUTES_PANEL")
-			var n:Node = attributesCanvas.node;
-			
-			// remove existing elements in Attributes Panel
-			n.properties['elements'] = new Array();
 	
 			var properties : Object = element.getEditableProperties();
 			var elementPropObject : Object ;
 
             var i : uint = 0;
+			var elementPropObject : Object;
             for ( var property : String in properties ) {
       
                 switch ( properties[ property ] ){
                     default :
                     case Attributes.INPUT :
-						
-                        elementPropObject = new Object();
-                        elementPropObject["elementType"] = "InputProperty";
-                        elementPropObject["label"] = property;
+						//trace("element properties: " +i);
+						elementPropObject  = new Object();
+						elementPropObject["label"] = property;
                         elementPropObject["value"] = element.getProperty( property );
-                        elementPropObject["w"] = "150";
-                        elementPropObject["h"] = "25";
+						addNewElementProperty(attributesCanvas, elementPropObject);
                         break;
                 }
-				// A
-				n.properties['elements'].push(elementPropObject);
+				i++;
 			}
-			_node  =   parseTreeRecursive( _panelData );
-			addCanvas(_node);
-		
+			
+
+			drawCanvas( _node );
 		}
 		
+		public function addNewElementProperty( canvas:Canvas, obj : Object ) : void {
+			
+                        obj["elementType"] = "InputProperty";
+                        obj["w"] = "150";
+                        obj["h"] = "25";
+	
+			
+			canvas.node.addNodeFromObject(obj);
+
+		}
 		
 	}
 }

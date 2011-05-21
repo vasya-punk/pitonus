@@ -4,6 +4,7 @@ package Elements
 	import flash.display.Sprite;
 	
 	import Utils.*;
+	import Managers.*;
 	import Configuration.*;
 	
 	public class ActiveImage extends ActiveElement implements IElement
@@ -11,7 +12,7 @@ package Elements
 		//private var  AIClip:ActiveImageClip;
 		
 		
-		public function ActiveImage( node:Node) {	
+		public function ActiveImage( node:DataNode) {	
 			super( node );
 		}
 		

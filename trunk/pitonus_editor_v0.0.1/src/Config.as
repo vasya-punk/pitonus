@@ -5,7 +5,7 @@ package
 		public static const DEBUG:Boolean = true;
 		
 		// DEBUG_LEVEL > 4 - to inspect layouts
-		public static const DEBUG_LEVEL:uint = 3;
+		public static const DEBUG_LEVEL:uint = 2;
 		
 		public static const ELEMENTS_CLASSES_PATH:String = "ElementsClasses/";
 	
@@ -24,21 +24,24 @@ package
 		public static const EDITOR_COMMANDS: String = "editor_commands";
 		public static const EXTERNAL_COMMANDS: String = "external_commands";
 		
+		public static const DEFAULT_NODE_NAME:String = "ElementId";
+		
+		
 		public static const  PROPERTIES_PANEL_CANVAS_DATA:Object  = 
 		{
 		  "elementType": "Panel",
 		  "name": "Properties panel",
-		  "x": "10",
-		  "y": "450",
-		  "w": "900",
-		  "h": "150",
+		  "x": "1000",
+		  "y": "10",
+		  "w": "200",
+		  "h": "580",
 		  "elements": [
 		   {
 			  "elementType": "Canvas",
 			   "name": "AttributesCanvas",
 			  "identifier":"ATTRIBUTES_PANEL",
-			   "w": "700",
-				"h": "130", "elements":[
+			   "w": "180",
+				"h": "350", "elements":[
 				
 				]
 			},
@@ -51,15 +54,40 @@ package
 		  ]
 		}
 		;
+		
+		public static const  NEW_PAGE_DATA:Object  = 
+		{
+		  "elementType": "Canvas",
+		  "name": "New Page",
+		  "x": "5",
+		  "y": "5",
+		  "w": "650",
+		  "h": "500",
+		  "elements": [
+		  
+		  ]
+		}
+		;
+		
 	public static const  NAVIGATION_PANEL_DATA:Object  = {
 			
 		  "elementType": "Panel",
 		  "name": "Navigation panel",
-		  "x": "700",
+		  "x": "650",
 		  "y": "5",
 		  "w": "400",
 		  "h": "340",
-		  "elements": [
+		  "elements": [{
+			 "elementType": "Canvas",
+			  "w": "250",
+			  "h": "100",
+			  "identifier":"NAVIGATION_PAGES",
+			  "name": "Canvas inside Canvas",
+			  "elements": [
+				
+			  ]
+			 
+			},
 		  {
 			"elementType" 	: "Tree",
             "name" : "Tree Site",
@@ -68,9 +96,12 @@ package
             "h" 		:	"300"
 			},{
 			  "elementType": "Button",
-			  "identifier":"SAVE_BUTTON",
 			  "caption": "AddElement",
 			  "action": "AddElement"
+			},{
+			  "elementType": "Button",
+			  "caption": "AddPage",
+			  "action": "AddPage"
 			}
 		  ]
 		}
@@ -99,14 +130,14 @@ package
 		 "elementType": "Canvas",
           "w": "450",
           "h": "200",
-		  "identifier":"CANVAS_TO_REMOVE",
-          "name": "Canvas Element on homepage",
+		  "identifier":"CANVAS_ON_PAGE",
+          "name": "TestCanvas",
           "elements": [
             {
               "elementType": "ActiveImage",
               "caption": "Inside",
               "src": "stamPic.jpg",
-              "name": "Element1 in Canvas",
+              "name": "AI1 on TestCanvas",
               "action": "DefaultCommand",
               "actionParam": "Hi",
               "w": "150",
@@ -115,8 +146,8 @@ package
 		 "elementType": "Canvas",
           "w": "250",
           "h": "100",
-		  "identifier":"CANVAS_TO_REMOVE",
-          "name": "Canvas Element inside Canvas on page",
+		  "identifier":"CANVAS2",
+          "name": "Canvas inside Canvas",
           "elements": [
             {
               "elementType": "ActiveImage",
@@ -195,7 +226,38 @@ package
           "h": "200"
         }
       ]
-    }
+    },  {
+      "pageId": "1",
+      "x": "5",
+      "y": "5",
+      "w": "650",
+      "h": "500",
+      "name": "SAecond Page",
+      "elementType": "Canvas",
+      "name": "contact",
+      "elements": [
+         {
+          "elementType": "ActiveImage",
+          "caption": "Anotaaher day",
+          "src": "stamPic2.jpg",
+          "action": "DefaultCommand",
+          "actionParam": "gl hf",
+          "w": "50",
+          "h": "200"
+        }
+		,
+		{
+          "elementType": "ActiveImage",
+          "caption": "Anot22aaher day",
+          "src": "stamPic.jpg",
+          "action": "DefaultCommand",
+          "actionParam": "gl hf",
+          "w": "250",
+          "h": "230"
+        }
+		
+		]}
+		
   ]
 }
 

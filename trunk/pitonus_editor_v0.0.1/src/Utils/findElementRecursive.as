@@ -3,6 +3,7 @@ package Utils
 	import Elements.Canvas;
 	import Elements.Element;
 	import Utils.*;
+	import Managers.*;
 	
     public function findElementRecursive( canvas : Canvas, node:Node, d : uint = 0 ) : *{
 		
@@ -10,7 +11,7 @@ package Utils
         d++ ;
 			
 		var elements:Array = canvas.elements;
-		trace("elements: " + elements.length);
+		//trace("elements: " + elements.length);
 		for (var i:uint = 0; i < elements.length ; i++ ) {
 			if (node === elements[i].node) {
 					return elements[i];

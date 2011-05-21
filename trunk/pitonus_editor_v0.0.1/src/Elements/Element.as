@@ -2,6 +2,7 @@ package  Elements
 {
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
+	import Managers.*;
 	import Utils.*;
 	import Elements.*;
 	import flash.display.*;
@@ -10,14 +11,14 @@ package  Elements
 	// Abstract class, should be EXTENDED, but not INSTANCED
 	public class Element extends Sprite implements IElement
 	{
-		protected var _node					: Node;
+		protected var _node					: DataNode;
 		
 		protected var _editableProperties	: Object;
 		protected var _bounds				: Sprite;
 		
 		protected var _initialized			: Boolean = false;
 		
-		public function Element( node:Node ):void {
+		public function Element( node:DataNode ):void {
 			if ( node ) {
 				_node = node;
 				init();
@@ -76,7 +77,7 @@ package  Elements
 			return result
 		}
 		
-		public function get node():Node{
+		public function get node():DataNode{
 			return _node;
 		}
 			

@@ -5,7 +5,7 @@ package Editor
     import flash.display. * ;
     import flash.events. * ;
     import org.as3commons.collections.framework.IRecursiveIterator;
-	import org.as3commons.collections.iterators.RecursiveIterator;
+    import org.as3commons.collections.iterators.RecursiveIterator;
 
     import Commands. * ;
     import Elements. * ;
@@ -16,25 +16,19 @@ package Editor
 
     public class Editor extends CanvasControl {
 
-        protected var _currentElement : ActiveElement;
+        protected var _selectedElement : *;
         protected var _workspace : Object;
 
-        public function Editor ( node : Node  ) {
+        public function Editor ( node : DataNode  ) {
             super( node );
             _commands =  Manager.getCommands();
-			            drawUi();
+			drawUi();
         }
 
         override public function attachActions() : void {
 
-
-
-
+					
             var elementsOnPage : Array = getActiveElementsRecursive( _canvas );
-
-            // var a : Array = getActiveElementsRecursive( _canvas );
-
-            // trace( a + " Total length: " + a.length );
 
             var nSlot : uint = 0;
             var runtimeClassRef : Class;
@@ -54,100 +48,120 @@ package Editor
 
             }
 
-
+			
         }
+		public function updateNavigationPanel() : void {	
 
-        public function drawUi() : void {
-           _workspace = new Object();
-		   
-			// Should be replaced by Class Workspace
-
-
-            _workspace['properties'] = new PropertiesPanel( this, _node ,Config.PROPERTIES_PANEL_CANVAS_DATA );
-            //_workspace['properties'].element = Manager.testElement;
-            addChild( _workspace['properties'] );
-
-            _workspace['navigation'] = new NavigationPanel( this, _node , Config.NAVIGATION_PANEL_DATA );
-            addChild( _workspace['navigation'] );
-
-
-            _workspace['navigation'].addEventListener( SimpleEvent.SIMPLE_EVENT, selectNodeInEditor );
-
-
+			_workspace['navigation'].updateTree();
+			_workspace['navigation'].updatePages();
+			//_workspace['navigation'].selectElement(_node.childNodes[_node.numItems - 1]);
 			
-
-        }
-        private function selectNodeInEditor( e : SimpleEvent ) : void {
-            trace( "navigation Event recived - Node to select: " + e.data );
+		}
 			
-			e.stopPropagation();
-			
-			var selectedNode:Node = e.data;
-			
-			//var totalElements : Array = getElementsRecursive( _canvas );
-			var element : Element = findElementRecursive( _canvas, selectedNode );
-			if(element )
-				selectElement(element);
-			else
-				trace("NotFound!!!");
-			
-		/*	var requestedNode:Node = e.data;
-			
-            var iterator : IRecursiveIterator = new RecursiveIterator( _node );
-            var item : Node;
-
-			
-			
-			
-            while ( iterator.hasNext() ) {
-                item = iterator.next();
-                try {
-                  
-                    // traceObject( item.properties );
-					if (requestedNode == item) {
-						//selectElement();
-						trace( "Node found! " +  prefix( iterator.depth )
-                    + " | " + iterator.depth
-                    + "  > " + item + " Element: " + item.properties['elementType'] );
-					}
-                }
-                catch ( e : Error ) {
-                    trace( "[Error] " + e );
-                }
-            }*/
-        }
-
-		// Called by Command
-        public function selectElement( param : Element ) : void {
-           // trace( "  Editor method executed. param: " + param );
-
-            var tree : Tree = _workspace['navigation'].selectElementOnCanvas( 'NAVIGATION_TREE' ) ;
-            tree.selectNode( param.node );
+		public function addNewPage() : void {	
+			Manager.addPage();
+			gotoPageId(Manager.getNumPages() - 1);
+			updateNavigationPanel();
+		}
 		
-			_workspace['properties'].element = param;
-			
-        }
+        public function drawUi() : void {
 
-       public function addNewElement( obj : Object ) : void {
-            
+        _workspace = new Object();
 
-       
-			
-			addElement(obj);
-			_workspace['navigation'].update();
-        }
-/*
-        public function removeElement( element : Element ) : void {
+        // Should be replaced by Class Workspace
+		_workspace['properties'] = new PropertiesPanel( this, _node  );
+        
+		// _workspace['properties'].element = Manager.testElement;
+        addChild( _workspace['properties'] );
 
-            _node.properties['elements'].splice( _node.numItems - 1, 1 );
-            _node.removeNodeAt( _node.numItems - 1 );
-            update();
-        }
-*/
+		
+        _workspace['navigation'] = new NavigationPanel( this, _node  );
+        addChild( _workspace['navigation'] );
 
-
+        _workspace['navigation'].addEventListener( SimpleEvent.SIMPLE_EVENT, selectNodeInEditor );
+		
+		
+		
 
     }
+
+		
+    
+    private function selectNodeInEditor( e : SimpleEvent ) : void {
+        //trace( "	Editor: selectNodeInEditor() Event recived - Node to select: " + e.data );
+
+        e.stopPropagation();
+
+        var selectedNode : DataNode = e.data;
+
+		var element : Element = findElementRecursive( _canvas, selectedNode );
+        if( element ){
+			selectElement( element );
+        }else {
+			trace( "Element not found in current Canvas!" );
+		}
+		
+    }
+
+    // Called by Command
+    public function selectElement( param : Element ) : void {
+
+        trace( "Editor: selectElement: " + param );
+		
+		if(_selectedElement)
+			tint(_selectedElement, false);
+		tint(param);
+		
+		//trace( " ----------> " + param.node );
+        _workspace['navigation'].selectElement( param.node );
+		_workspace['properties'].element = param;
+		_selectedElement = param;
+
+    }
+	
+	public function gotoPageId(id:uint):void {
+		
+		_node = Manager.getPageNode(id);
+		addCanvas(_node);
+		
+		_selectedElement = null;
+		Manager.selectedPageId = id;
+		updateNavigationPanel();
+	}
+	
+    public function addNewElement( obj : Object ) : void {
+		
+			var elementPropObject : Object = new Object();
+            elementPropObject["elementType"] = "ActiveImage";
+            elementPropObject["caption"] = "property";
+            elementPropObject["src"] = "stamPic.jpg",
+            elementPropObject["w"] = "150";
+            elementPropObject["h"] = "155";
+			elementPropObject["action"] = "DefaultCommand",
+            elementPropObject["actionParam"] = "Hi",
+			
+            _node.addNodeFromObject(elementPropObject);
+
+			updateNavigationPanel(  );
+			
+			drawCanvas( _node );
+			
+			selectElement(findElementRecursive( _canvas, _node.childNodes[_node.numItems - 1] ));
+    }
+    /*
+    public function removeElement( element : Element ) : void {
+
+    _node.properties['elements'].splice( _node.numItems - 1, 1 );
+    _node.removeNodeAt( _node.numItems - 1 );
+    update();
+    }
+    */
+
+
+
 }
 
-//  ---------------------------------------
+
+
+}
+

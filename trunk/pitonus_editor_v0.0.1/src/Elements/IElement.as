@@ -1,6 +1,6 @@
 package  Elements
 {
-	import Utils.Node;
+	import Managers.*;
 	public interface IElement
 	{
 		function setProperty(prop:String, value:String):Boolean;

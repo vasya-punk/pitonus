@@ -12,6 +12,7 @@ package Commands{
 		public function GotoToPageId(rec:*, id:uint):void {
 			this.receiver = rec;
 			pageId = id;
+			
 		}	
 		
 		public function execute():void {

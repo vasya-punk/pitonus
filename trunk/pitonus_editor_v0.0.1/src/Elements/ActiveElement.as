@@ -1,6 +1,7 @@
 package  Elements
 {
 	import flash.display.Sprite;
+	import Managers.DataNode;
 		
 	import Utils.*;
 	
@@ -8,7 +9,7 @@ package  Elements
 	{
 		public var clickTarget:*;
 		
-		public function ActiveElement( node:Node ) {	
+		public function ActiveElement( node:DataNode ) {	
 			super( node );
 		}
 		

@@ -2,6 +2,7 @@ package Elements
 {
 
 	import flash.display.Sprite;
+	import Managers.DataNode;
 	import Utils.*;
 	import Configuration.*;
 	import flash.display.*;
@@ -9,7 +10,7 @@ package Elements
 	public class Button extends ActiveElement implements IElement
 	{
 
-		public function Button( node:Node) {	
+		public function Button( node:DataNode) {	
 			super( node );
 		}
 		
@@ -22,7 +23,9 @@ package Elements
 
 			if (this.validateProperties( editableProperties )) {
 				
-				clickTarget = new TextButton(this.getProperty("caption"));
+				var w:uint = ( this.isProperty("w") )? int(this.getProperty("w")) : 152;
+				var h:uint = ( this.isProperty("h") )? int(this.getProperty("h")) : 25;
+				clickTarget = new TextButton(this.getProperty("caption"), w, h);
 
 				addChild(clickTarget);
 				

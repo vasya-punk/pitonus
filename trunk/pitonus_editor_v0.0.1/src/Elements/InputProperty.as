@@ -7,6 +7,7 @@ package Elements
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 	import flash.text.TextFieldAutoSize;
+	import Managers.DataNode;
 	
 	import	com.sibirjak.asdpc.textfield.*;
 	
@@ -19,7 +20,7 @@ package Elements
 		private var input:TextInput;
 		private var label:Label;				
 		
-		public function InputProperty( node:Node) {	
+		public function InputProperty( node:DataNode) {	
 			super( node );
 		}		
 
