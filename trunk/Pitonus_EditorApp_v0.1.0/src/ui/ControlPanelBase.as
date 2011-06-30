@@ -158,6 +158,7 @@ package ui{
 			with (button) {
 				setSize(bWidth, bHeight);
 				toggle = properties["toggle"];
+				id = properties["id"];
 				selected = properties["selected"];
 				button.label = properties["label"]; // label = properties causes confusion with this.label()
 				button.selectedLabel = properties["selectedlabel"]; // label = properties causes confusion with this.label()

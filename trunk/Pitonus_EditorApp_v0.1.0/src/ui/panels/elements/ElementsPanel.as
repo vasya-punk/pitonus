@@ -25,7 +25,7 @@ package ui.panels.elements
 		public function ElementsPanel(rec:*) {
 			
 			_site = rec;
-			trace( "ProjectPanel." + _site + " " + typeof(_site) );
+			
             if ( stage ) init();
             else addEventListener( Event.ADDED_TO_STAGE, init );
         }
@@ -112,7 +112,6 @@ package ui.panels.elements
 						]
 				});
 			
-			trace(">>>> " + this.stage);
 			
 			_background = new BackgroundSkin();
 			_background.setSize( 200, 250);

@@ -74,17 +74,16 @@ package
 		private var site:EditorControl;
 		private var elementNode:DataNode;
 		
-		// for popup 
-		private var value:Object = null;
-		
+			
 		// Editor Components
 		private var panelElements:ElementsPanel;
 		private var panelProject:ProjectPanel ;
 	
 			//floating windows
 		private var windowContainer : WindowContainer;
-		private var propertiesWindow : Window = null;
-
+		private var windows : Object;
+		private var pinBar : PinBar ;
+		
 		public function Editor():void {
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
@@ -115,20 +114,23 @@ package
 			DataManager.setAviableClasses(internalElementClasses);	
 			DataManager.layout = displayLayout;
 
-		
-			
+
 			var dataBridge:JSBridge = new JSBridge();
 			dataBridge.addEventListener( JSBridgeEvent.SITE_STRUCTURE_RECIEVED, onJs_siteData);
 			DataManager.jsBridge = dataBridge;
 			
-			var popupLayer:Sprite = new Sprite();
-			layerTop.addChild(popupLayer);
-			DataManager.popupManager = popupLayer;
+
+			var overlayManager:OverlayManager = new OverlayManager(  );
+			layerTop.addChild(overlayManager)
+			DataManager.overlayManager = overlayManager;
 			
 			windowContainer = new WindowContainer();
 			layerMiddle.addChild(windowContainer);
 			
-			//setTimeout(fakeSimulation, 3000);
+			windows = new Object();
+			windows['propertiesWindow'] = null;
+			windows['elementWindow'] = null;
+			
 		}
 		
 		//==================================== On ===============================================
@@ -174,32 +176,7 @@ package
 		}*/
 		
 
-		public  function onEditorPopUpSelect(e:DropDownListEvent):void { 
-			
-			trace(e.caller + " : " + e.value);
-			value = new Object();
-			value['val'] =  e.value;
-			value['caller'] =  e.caller;
-	
-		}
 		
-		public  function onEditorPopUpOk():void { 
-
-			if( value['caller'] == "Image" ){
-			site.addElementFromObject({
-							"elementType" 	: "Image",
-							"w" 			: String(randomRange(50,150)),
-							"h" 			: String(randomRange(50,150)), 
-							"src" 			:  value['val'],
-							"marginX"		: String(randomRange(25,550)),
-							"marginY"		: String(randomRange(25,350)),
-							"inline"		: "false"
-							});
-			}else {
-				trace("Editor - Don't know how to create: " + value['caller'] );
-			}
-							
-		}
 
 		private function onLayoutReady(e:Event):void { 
 			//trace("Editor.onLayoutReady()");	
@@ -207,7 +184,7 @@ package
 	
 		public function onCanvasReady(e:ControlEvent):void { 
 			
-			//trace("Editor.onCanvasReady()" );
+			trace("Editor.onCanvasReady()" );
 
 			if(!DataManager.transformTool)
 				initTransformTool();
@@ -226,6 +203,9 @@ package
 			layerMiddle.addChild(panelElements);
 			DataManager.layout.addToLayout(panelElements, Config.ALIGN_TOP_RIGHT);
 
+			DataManager.overlayManager.editor = this;
+			DataManager.overlayManager.control = site;
+			
 			// panelProject
 			if (panelProject){
 				if (panelProject.stage) { 
@@ -237,6 +217,10 @@ package
 			panelProject  = new ProjectPanel (this);
 			layerMiddle.addChild(panelProject);
 			DataManager.layout.addToLayout(panelProject, Config.ALIGN_BOTTOM_RIGHT);
+			
+			// TODO : CleanUp Editor!
+			if(!windows['propertiesWindow'] )
+				createWindows();
 		}
 		
 		//==================================== TransformTool ===============================================	
@@ -276,8 +260,8 @@ package
 			selectedElement.marginY = selectedElement.y;
 			selectedElement.marginX = selectedElement.x;
 			
-			updatePropertiesWindow(selectedElement);
-			propertiesWindow.restore();
+			updatePropertiesWindows(selectedElement);
+			
 			
 			trace(". selectElement " + selectedElement);
 		}
@@ -290,25 +274,56 @@ package
 			selectedElement.marginX = selectedElement.x;
 			selectedElement.marginY = selectedElement.y;
 
-			updatePropertiesWindow(selectedElement);
-			propertiesWindow.restore();
-		}
+			updatePropertiesWindows(selectedElement);
 
+		}
+		
+		public	function openOptions() : void {
+			
+			var element:Element = DataManager.selectedElement as Element;
+
+			if(element.getProperty("src")){
+				var srcProp:String = element.getProperty("src");
+				
+				DataManager.overlayManager.createElementPropertiesPopUp(
+						callback,
+						element.getEditableProperties(),
+						"Editor.CONFIG.Popup",
+						"Choose:");
+						
+				function callback(type:String, property:*):void {
+					switch (type) {
+						case "src":
+							element.setProperty("src", property);
+						break;
+						default:
+							
+						break;
+					}
+				}
+				
+				//DataManager.jsBridge.callJs("jsPit_requestImagesList");
+			
+				/*DataManager.overlayManager.createSavePopUp(DataManager.selectedElement, "Editor.SAVE.Popup",
+								"U just about to save your beautiful' site.\nGo on!");*/
+			}
+		}
 
 		
 		//==================================== Project/Files ===============================================	
 		private	function ____________Project_File___(  ) : void {}
 		
 		public function newSite():void {
-			DataManager.createPopUp("Editor.Popup","Are you sure?");
+			DataManager.overlayManager.createNewSitePopUp("Editor.NEW.Popup","Are you sure?");
 		};
 		
 		public function saveSite():void {
-			DataManager.createSavePopUp("Editor.Popup","U just about to save your beautiful' site.\nGo on!");
+			DataManager.overlayManager.createSavePopUp("Editor.SAVE.Popup",
+							"U just about to save your beautiful' site.\nGo on!");
 		};
 		
 		public function loadSite():void {
-			DataManager.createLoadPopUp("Editor.Popup","Are you sure? All changes to current propject will be discarded.");
+			DataManager.overlayManager.createLoadPopUp("Editor.LOAD.Popup","Are you sure? All changes to current propject will be discarded.");
 		};
 
 		public function createNewPage():void {
@@ -321,6 +336,7 @@ package
 			layerMiddle.removeChild(DataManager.transformTool);
 			DataManager.transformTool = null;
 			
+			site.removeEventListener(ControlEvent.CANVAS_ONDRAW, onCanvasReady);
 			site.removeCanvas();
 			layerBottom.removeChild(site);
 			site = null;
@@ -336,29 +352,54 @@ package
 		//==================================== Windows_UI ===============================================
 		private	function ____________Windows_UI___(  ) : void {}
 			
+		private function createWindows():void {
+			pinBar = new PinBar();
+			pinBar.setStyle(PinBar.style.position, Position.BOTTOM);
+			createPropertiesWindow();
+			createElementWindow();
+			addChild(pinBar);
+		}
 		
-		
-		private	function updatePropertiesWindow( trg:* = null ) : void {
-	
-			var element:* = (trg) ? trg : site.canvas.elements[0];
+		private	function updatePropertiesWindows( trg:* = null ) : void {
 			
-			if(propertiesWindow == null){
-				createPropertiesWindow();
-			} else {
-				(propertiesWindow.document as PropertiesTab).element = element;
-				//(propertiesWindow.document as PropertiesTab).canvas = site.canvas;
+			var propertiesWindow:Window = windows['propertiesWindow'];
+			var elementWindow:Window = windows['elementWindow'];
+			
+			var element:* = (trg) ? trg : site.canvas;
+			
+			if (element) {
+				
+				if(propertiesWindow.document.stage){
+					(propertiesWindow.document as PropertiesTab).element = element;
+					propertiesWindow.restore();
+				}
+				
+				if(elementWindow.document.stage){
+					(elementWindow.document as ElementTab).element = element;
+					elementWindow.setSize( 
+						ElementTab(elementWindow.document).tabLayout.visibleRect.width + 10,
+						ElementTab(elementWindow.document).tabLayout.visibleRect.height + 46
+					);
+					elementWindow.restore();
+					/*windowContainer.cleanUp();
+					windowContainer.removeChild(elementWindow);
+					createElementWindow(element);*/
+					
+				}
+			}else {
+				trace("[Error] Editor.updatePropertiesWindows() > element undefined...")
 			}
 	
 		}
 		
 		private function createPropertiesWindow():void {
-	
-			propertiesWindow = new Window();
-			
+
+			windows['propertiesWindow'] = new Window();
+			var propertiesWindow:Window = windows['propertiesWindow'];
+
 			propertiesWindow.moveTo(620, 50);
 			propertiesWindow.setStyle(Window.style.windowIconSkin, _sizeIconWhite);
-			//var tab:* = new PropertiesTab( site.canvas.elements[0] );
-			propertiesWindow.document = new PropertiesTab( site.canvas.elements[0], site.canvas, this );
+			propertiesWindow.document = new PropertiesTab( site.canvas, site.canvas, this );
 			propertiesWindow.title = "Properties";
 			propertiesWindow.minimisePosition = new WindowPosition(0, 0);
 			propertiesWindow.minimised = true;
@@ -370,17 +411,36 @@ package
 				PropertiesTab(propertiesWindow.document).tabLayout.visibleRect.height + 46
 			);
 
-			var pinBar : PinBar = new PinBar();
-			pinBar.setStyle(PinBar.style.position, Position.BOTTOM);
+			
 			
 			pinBar.registerWindow(propertiesWindow, _sizeIcon);
-			//pinBar.registerWindow(traceWindow, _sizeIconWhite);
-			
-			addChild(pinBar);	
-			
-			
-		}
 
+		}
+		
+		private function createElementWindow(element:* = null):void {
+	
+			windows['elementWindow'] = new Window();
+			var elementWindow:Window = windows['elementWindow'];
+
+			elementWindow.moveTo(620, 250);
+			elementWindow.setStyle(Window.style.windowIconSkin, _sizeIconWhite);
+			var el:* = (element) ? element :  site.canvas
+			elementWindow.document = new ElementTab( el, site.canvas, this );
+			elementWindow.title = "Element";
+			elementWindow.minimisePosition = new WindowPosition(0, 0);
+			if(!element)
+				elementWindow.minimised = true;
+			
+			windowContainer.addChild(elementWindow);
+	
+			elementWindow.setSize( 
+				ElementTab(elementWindow.document).tabLayout.visibleRect.width + 10,
+				ElementTab(elementWindow.document).tabLayout.visibleRect.height + 46
+			);
+
+			pinBar.registerWindow(elementWindow, _sizeIcon);
+
+		}
 
 	}
 	
