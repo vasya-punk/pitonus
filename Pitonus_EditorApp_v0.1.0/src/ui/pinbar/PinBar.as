@@ -101,6 +101,11 @@ package ui.pinbar {
 		 * PinBar
 		 */
 
+
+/*		override protected function initialised() : void {
+			dispatchEvent(new Event(Event.ADDED_TO_STAGE, false));
+		} */
+		 
 		public function registerWindow(window : Window, iconSkin : Class) : void {
 			window.addEventListener(WindowEvent.START_DRAG, windowStartsMovingHandler);
 

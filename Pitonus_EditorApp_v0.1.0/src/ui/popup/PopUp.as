@@ -61,7 +61,7 @@ package ui.popup {
 				"marginX", padding, "marginY", padding,
 				"minWidth", w - 2*padding, "minHeight", h - 2*padding,
 				"vAlign", Align.JUSTIFY,
-				vgroup(
+				hgroup(
 					cellconfig("vIndex", 1, "marginY", 10),
 					tf1
 				),
