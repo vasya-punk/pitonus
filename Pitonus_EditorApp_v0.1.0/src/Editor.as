@@ -270,7 +270,7 @@ package
 		
 		
 		private	function selectElement( e:TransformToolEvent ) : void {
-			
+			DataManager.selectedElement = e.element;
 			var selectedElement:* = DataManager.selectedElement;
 			selectedElement = e.element;
 			selectedElement.marginY = selectedElement.y;
@@ -283,7 +283,8 @@ package
 		}
 		
 		private	function updateElement( e:TransformToolEvent ) : void {
-
+			
+			DataManager.selectedElement = e.element;
 			var selectedElement:* = DataManager.selectedElement;
 			selectedElement = e.element;
 			selectedElement.marginX = selectedElement.x;
