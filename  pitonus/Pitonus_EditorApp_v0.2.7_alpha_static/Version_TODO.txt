@@ -1,0 +1,2 @@
+[BUG] Remove "SiteMenu" Element 
+[BUG] FULLSCREEN layout Backgrounds
